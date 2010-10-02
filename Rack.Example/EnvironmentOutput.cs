@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Rack;
 
-namespace RackExample
+namespace Rack.Example
 {
     public class EnvironmentOutput
     {
@@ -20,15 +19,22 @@ namespace RackExample
         {
             _environment = environment;
 
-            var response = _application.Call(environment);
-            _response = response[2];
+            if (_application != null)
+            {
+                var response = _application.Call(environment);
+                _response = response[2];
+                return new[] { response[0], response[1], this };
+            }
 
-            return new[] {response[0], response[1], this};
+            return new dynamic[] {200, new Headers{{"Content-Type", "text/html"}}, this};
         }
 
         public void Each(Action<object> action)
         {
-            _response.Each(action);
+            if (_response != null)
+            {
+                _response.Each(action);
+            }
 
             var envOutput = _environment.Keys
                 .Aggregate("", (current, key) => current + string.Format("<li>{0}={1}</li>", key, _environment[key]));

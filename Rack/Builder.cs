@@ -44,7 +44,7 @@ namespace Rack
         {
             if (_appList.Count == 0 || 
                 _appList.Last() is Proc || 
-                !_appList.Last() is Dictionary<string, dynamic>)
+                !(_appList.Last() is Dictionary<string, dynamic>))
             {
                 _appList.Add(new Dictionary<string, dynamic>());
             }

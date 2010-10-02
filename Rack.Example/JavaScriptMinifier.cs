@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Rack;
 
-namespace RackExample
+namespace Rack.Example
 {
     public class JavaScriptMinifier
     {

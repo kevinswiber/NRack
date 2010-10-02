@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rack;
 
-namespace RackExample
+namespace Rack.Example
 {
     public class PlainTextFilter
     {
@@ -22,7 +21,7 @@ namespace RackExample
             return new dynamic[] { response[0], new Headers {{"Content-Type", "text/plain"}}, this };
         }
 
-        public void Each(Action<dynamic> action)
+        public void Each(Action<object> action)
         {
             _response.Each(action);
         }
