@@ -51,6 +51,7 @@
     <Compile Include="Builder.cs" />
     <Compile Include="Proc.cs" />
     <Compile Include="Hosting\AspNet\AspNetHandler.cs" />
+    <Compile Include="RackVersion.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
     <Compile Include="Hosting\AspNet\EnumerableBodyAdapter.cs" />

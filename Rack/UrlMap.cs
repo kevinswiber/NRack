@@ -59,13 +59,13 @@ namespace Rack
             Enumerable.OrderByDescending(_mapping, mapping => ((mapping.Host ?? string.Empty) + mapping.Location).Length);
         }
 
-        public dynamic[] Call(IDictionary<string, string> env)
+        public dynamic[] Call(IDictionary<string, object> env)
         {
-            var pathInfo = env["PATH_INFO"];
-            var scriptName = env["SCRIPT_NAME"];
-            var httpHost = env["HTTP_HOST"];
-            var serverName = env["SERVER_NAME"];
-            var serverPort = env["SERVER_PORT"];
+            var pathInfo = env["PATH_INFO"].ToString();
+            var scriptName = env["SCRIPT_NAME"].ToString();
+            var httpHost = env["HTTP_HOST"].ToString();
+            var serverName = env["SERVER_NAME"].ToString();
+            var serverPort = env["SERVER_PORT"].ToString();
 
             try
             {

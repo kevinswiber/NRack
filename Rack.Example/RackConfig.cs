@@ -8,12 +8,12 @@ namespace Rack.Example
         {
             //Use<EnvironmentOutput>();
             //Use<JavaScriptMinifier>("./");
-            Map("/app", builder =>
+            Map("/app", rack =>
                             {
-                                builder.Use<JavaScriptMinifier>("./");
-                                builder.Run(new MyApp());
+                                rack.Use<JavaScriptMinifier>("./");
+                                rack.Run(new MyApp());
                             });
-            Map("/env", builder => builder.Run(new EnvironmentOutput(null)));
+            Map("/env", rack => rack.Run(new EnvironmentOutput(null)));
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Rack.Example
     {
         private readonly dynamic _application;
         private dynamic _response;
-        private IDictionary<string, string> _environment;
+        private IDictionary<string, object> _environment;
 
         public EnvironmentOutput(dynamic application)
         {
             _application = application;
         }
 
-        public dynamic[] Call(IDictionary<string, string> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             _environment = environment;
 
@@ -37,7 +37,7 @@ namespace Rack.Example
             }
 
             var envOutput = _environment.Keys
-                .Aggregate("", (current, key) => current + string.Format("<li>{0}={1}</li>", key, _environment[key]));
+                .Aggregate("", (current, key) => current + string.Format("<li>{0}={1}</li>", key, _environment[key].ToString()));
 
             action(envOutput);
         }

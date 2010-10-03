@@ -52,7 +52,7 @@ namespace Rack
                 .Add(url, new Builder(action).ToApp());
         }
 
-        public dynamic[] Call(IDictionary<string, string> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             return ToApp().Call(environment);
         }

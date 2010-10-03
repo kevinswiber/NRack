@@ -11,7 +11,7 @@ namespace Rack.Hosting.AspNet
             _innerObject = innerObject;
         }
         
-        public dynamic[] Call(IDictionary<string, string> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             var response = _innerObject.Call(environment);
 

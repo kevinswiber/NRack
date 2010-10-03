@@ -13,7 +13,7 @@ namespace Rack.Example
             _application = application;
         }
 
-        public dynamic[] Call(IDictionary<string, string> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             var response = _application.Call(environment);
             _response = response[2];

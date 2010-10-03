@@ -13,7 +13,7 @@ namespace Rack.Example
             _root = root;
         }
 
-        public dynamic[] Call(IDictionary<string, string> env)
+        public dynamic[] Call(IDictionary<string, object> env)
         {
             var root = _root;
 

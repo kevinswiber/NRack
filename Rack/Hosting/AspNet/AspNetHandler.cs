@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 
 namespace Rack.Hosting.AspNet
@@ -12,17 +14,33 @@ namespace Rack.Hosting.AspNet
         public void ProcessRequest(HttpContext context)
         {
             var rawEnvironment = context.Request.Params;
-            var environment = rawEnvironment.AllKeys.ToDictionary(key => key, key => rawEnvironment[key]);
+            Dictionary<string, object> environment =
+                rawEnvironment.AllKeys.ToDictionary(key => key, key => (object)rawEnvironment[key]);
 
-            var stopWatch = new Stopwatch();
-            stopWatch.Reset();
-            stopWatch.Start();
+            if ((string)environment["SCRIPT_NAME"] == string.Empty)
+            {
+                environment["SCRIPT_NAME"] = "/";
+            }
+
+            var rackEnvs = new Dictionary<string, object>
+                               {
+                                   {"rack.version", RackVersion.Version},
+                                   {"rack.input", context.Request.InputStream},
+                                   {"rack.errors", Console.OpenStandardError()},
+                                   {"rack.multithread", true},
+                                   {"rack.multiprocess", false},
+                                   {"rack.run_once", "false"},
+                                   {"rack.url_scheme", "http"}
+                               };
+
+            environment = environment.Union(rackEnvs).ToDictionary(key => key.Key, val => val.Value);
+
+            if (!environment.ContainsKey("SCRIPT_NAME"))
+            {
+                environment["SCRIPT_NAME"] = string.Empty;
+            }
 
             var responseArray = AspNetHttpModule.Builder.Call(environment);
-
-            stopWatch.Stop();
-
-            Debug.WriteLine(stopWatch.ElapsedMilliseconds);
 
             var response = AspNetResponse.Create(responseArray);
 
@@ -44,6 +62,19 @@ namespace Rack.Hosting.AspNet
             else
             {
                 response.Body.Each((Action<object>)(body => context.Response.Write(body)));
+            }
+
+            var methodInfos = (IEnumerable<MethodInfo>)response.Body.GetType().GetMethods();
+            
+            var closeMethods = Enumerable.Where(methodInfos, method => method.Name == "Close");
+
+            foreach(var method in closeMethods)
+            {
+                if(method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
+                {
+                    method.Invoke(response.Body, null);
+                    break;
+                }
             }
         }
 
