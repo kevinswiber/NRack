@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -29,8 +28,9 @@ namespace Rack.Hosting.AspNet
                                    {"rack.errors", Console.OpenStandardError()},
                                    {"rack.multithread", true},
                                    {"rack.multiprocess", false},
-                                   {"rack.run_once", "false"},
-                                   {"rack.url_scheme", "http"}
+                                   {"rack.run_once", false},
+                                   {"rack.url_scheme", context.Request.IsSecureConnection ? "https" : "http"}
+
                                };
 
             environment = environment.Union(rackEnvs).ToDictionary(key => key.Key, val => val.Value);
