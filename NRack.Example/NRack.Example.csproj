@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Default.aspx" />
-    <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -60,9 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnvironmentOutput.cs" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="JavaScriptMinifier.cs" />
     <Compile Include="MyApp.cs" />
     <Compile Include="PlainTextFilter.cs" />

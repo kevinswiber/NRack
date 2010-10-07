@@ -1,6 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
+using System.Reflection;
 using System.Web;
+using System.Web.Compilation;
 
 namespace NRack.Hosting.AspNet
 {
@@ -14,11 +18,20 @@ namespace NRack.Hosting.AspNet
         {
             Builder = new Builder();
 
-            var rackConfigSection = (RackConfigurationSection)ConfigurationManager.GetSection("rack");
-            
-            var rackConfig = ((RackConfigBase)Activator.CreateInstance(Type.GetType(rackConfigSection.Type)));
+            RackConfigBase rackConfig = GetRackConfigInstance();
             rackConfig.Builder = Builder;
             rackConfig.RackUp();
+        }
+
+        private RackConfigBase GetRackConfigInstance()
+        {
+            var rackConfigSection = (RackConfigurationSection)ConfigurationManager.GetSection("rack");
+
+            var rackConfigType = (rackConfigSection != null && !string.IsNullOrEmpty(rackConfigSection.Type))
+                                     ? Type.GetType(rackConfigSection.Type)
+                                     : GetRackConfigTypeFromReferencedAssemblies();
+
+            return ((RackConfigBase)Activator.CreateInstance(rackConfigType));
         }
 
         public void Dispose()
@@ -27,5 +40,41 @@ namespace NRack.Hosting.AspNet
         }
 
         #endregion
+
+        private Type GetRackConfigTypeFromReferencedAssemblies()
+        {
+            var referencedAssemblies = BuildManager.GetReferencedAssemblies();
+            IEnumerable<Type> typesCollected = Type.EmptyTypes;
+            foreach (Assembly assembly in referencedAssemblies)
+            {
+                Type[] typesInAsm;
+                try
+                {
+                    typesInAsm = assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    typesInAsm = ex.Types;
+                }
+
+                typesCollected = typesCollected.Concat(typesInAsm);
+            }
+
+            var rackConfigTypes = typesCollected.Where(type => TypeIsPublicClass(type) && TypeIsRackConfig(type));
+
+            Type rackConfig = rackConfigTypes.First();
+
+            return rackConfig;
+        }
+
+        private static bool TypeIsPublicClass(Type type)
+        {
+            return (type != null && type.IsPublic && type.IsClass && !type.IsAbstract);
+        }
+
+        private static bool TypeIsRackConfig(Type type)
+        {
+            return typeof(RackConfigBase).IsAssignableFrom(type);
+        }
     }
 }

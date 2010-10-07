@@ -1,6 +1,6 @@
 using System;
 
-namespace NRack.Hosting.AspNet
+namespace NRack
 {
     public abstract class RackConfigBase
     {

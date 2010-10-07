@@ -45,9 +45,8 @@
     <Compile Include="Hosting\AspNet\AspNetHttpModule.cs" />
     <Compile Include="Headers.cs" />
     <Compile Include="Hosting\AspNet\MiddlewareWithEnumerableBodyAdapter.cs" />
-    <Compile Include="Hosting\AspNet\RackConfigBase.cs" />
+    <Compile Include="RackConfigBase.cs" />
     <Compile Include="Hosting\AspNet\RackConfigurationSection.cs" />
-    <Compile Include="Hosting\AspNet\RackHttpApplication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Proc.cs" />
