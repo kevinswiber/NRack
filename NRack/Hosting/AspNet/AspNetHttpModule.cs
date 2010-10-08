@@ -10,17 +10,12 @@ namespace NRack.Hosting.AspNet
 {
     public class AspNetHttpModule : IHttpModule
     {
-        public static Builder Builder { get; set; }
-
         #region Implementation of IHttpModule
 
         public void Init(HttpApplication context)
         {
-            Builder = new Builder();
-
             RackConfigBase rackConfig = GetRackConfigInstance();
-            rackConfig.Builder = Builder;
-            rackConfig.RackUp();
+            AspNetHandler.GetBuilderInContext = () => new Builder(rackConfig.ExecuteRackUp);
         }
 
         private RackConfigBase GetRackConfigInstance()

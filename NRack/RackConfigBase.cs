@@ -4,33 +4,34 @@ namespace NRack
 {
     public abstract class RackConfigBase
     {
-        public Builder Builder { get; set; }
-
-        protected RackConfigBase()
-        {
-            Builder = new Builder();
-        }
+        private Builder _builder;
 
         public abstract void RackUp();
 
+        public void ExecuteRackUp(Builder builder)
+        {
+            _builder = builder;
+            RackUp();
+        }
+
         public void Use<T>(params dynamic[] parameters)
         {
-            Use(typeof(T), parameters);
+            _builder.Use<T>(parameters);
         }
 
         public void Use(Type rackApplicationType, params dynamic[] parameters)
         {
-            Builder.Use(rackApplicationType, parameters);
+            _builder.Use(rackApplicationType, parameters);
         }
 
         public void Run(dynamic rackApplicationType)
         {
-            Builder.Run(rackApplicationType);
+            _builder.Run(rackApplicationType);
         }
 
         public void Map(string url, Action<Builder> action)
         {
-            Builder.Map(url, action);
+            _builder.Map(url, action);
         }
     }
 }

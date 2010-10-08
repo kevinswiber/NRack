@@ -1,5 +1,3 @@
-using NRack.Hosting.AspNet;
-
 namespace NRack.Example
 {
     public class RackConfig : RackConfigBase
@@ -13,7 +11,7 @@ namespace NRack.Example
                                 rack.Use<JavaScriptMinifier>("./");
                                 rack.Run(new MyApp());
                             });
-            Map("/env", rack => rack.Run(new EnvironmentOutput(null)));
+            Map("/env", rack => rack.Run(new EnvironmentOutput()));
         }
     }
 }

@@ -15,6 +15,10 @@ namespace NRack.Example
             _application = application;
         }
 
+        public EnvironmentOutput() : this(null)
+        {
+        }
+
         public dynamic[] Call(IDictionary<string, object> environment)
         {
             _environment = environment;

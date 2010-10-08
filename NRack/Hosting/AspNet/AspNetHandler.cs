@@ -8,6 +8,8 @@ namespace NRack.Hosting.AspNet
 {
     public class AspNetHandler : IHttpHandler
     {
+        public static Func<Builder> GetBuilderInContext;
+
         #region Implementation of IHttpHandler
 
         public void ProcessRequest(HttpContext context)
@@ -40,7 +42,8 @@ namespace NRack.Hosting.AspNet
                 environment["SCRIPT_NAME"] = string.Empty;
             }
 
-            var responseArray = AspNetHttpModule.Builder.Call(environment);
+            var builder = GetBuilderInContext();
+            var responseArray = builder.Call(environment);
 
             var response = AspNetResponse.Create(responseArray);
 
