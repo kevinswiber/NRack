@@ -1,3 +1,5 @@
+using System.Web;
+
 namespace NRack.Example
 {
     public class RackConfig : RackConfigBase
@@ -5,10 +7,10 @@ namespace NRack.Example
         public override void RackUp()
         {
             Use<EnvironmentOutput>();
-            Use<JavaScriptMinifier>("./");
+            Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"));
             Map("/app", rack =>
                             {
-                                rack.Use<JavaScriptMinifier>("./");
+                                rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"));
                                 rack.Run(new MyApp());
                             });
             Map("/env", rack => rack.Run(new EnvironmentOutput()));
