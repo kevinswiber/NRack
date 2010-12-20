@@ -45,6 +45,8 @@
     <Compile Include="Hosting\AspNet\AspNetHttpModule.cs" />
     <Compile Include="Headers.cs" />
     <Compile Include="Hosting\AspNet\MiddlewareWithEnumerableBodyAdapter.cs" />
+    <Compile Include="IApplication.cs" />
+    <Compile Include="IResponseBody.cs" />
     <Compile Include="Mock\MockRequest.cs" />
     <Compile Include="RackConfigBase.cs" />
     <Compile Include="Hosting\AspNet\RackConfigurationSection.cs" />

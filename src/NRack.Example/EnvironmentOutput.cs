@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NRack.Example
 {
-    public class EnvironmentOutput
+    public class EnvironmentOutput : IApplication, IResponseBody
     {
         private readonly dynamic _application;
         private dynamic _response;

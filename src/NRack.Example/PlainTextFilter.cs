@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NRack.Example
 {
-    public class PlainTextFilter
+    public class PlainTextFilter : IApplication, IResponseBody
     {
         private readonly dynamic _application;
         private dynamic _response;

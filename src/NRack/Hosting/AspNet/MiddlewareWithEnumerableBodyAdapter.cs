@@ -2,7 +2,7 @@
 
 namespace NRack.Hosting.AspNet
 {
-    public class MiddlewareWithEnumerableBodyAdapter
+    public class MiddlewareWithEnumerableBodyAdapter : IApplication
     {
         private readonly dynamic _innerObject;
 

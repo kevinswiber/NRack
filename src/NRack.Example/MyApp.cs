@@ -2,7 +2,7 @@
 
 namespace NRack.Example
 {
-    public class MyApp
+    public class MyApp : IApplication
     {
         public dynamic[] Call(IDictionary<string, object> environment)
         {

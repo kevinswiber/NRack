@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace NRack.Hosting.AspNet
 {
-    public class EnumerableBodyAdapter
+    public class EnumerableBodyAdapter : IResponseBody
     {
         private Action<Action<object>> _forEachAction;
 
