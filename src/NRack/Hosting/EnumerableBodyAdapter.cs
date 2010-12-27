@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace NRack.Hosting.AspNet
+namespace NRack.Hosting
 {
     public class EnumerableBodyAdapter : IResponseBody
     {

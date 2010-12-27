@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using NRack.Hosting.AspNet;
+using NRack.Hosting;
 
 namespace NRack
 {

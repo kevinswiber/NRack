@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace NRack.Hosting.AspNet
+namespace NRack.Hosting
 {
     public class RackConfigurationSection : ConfigurationSection
     {

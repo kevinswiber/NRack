@@ -44,12 +44,12 @@
   <ItemGroup>
     <Compile Include="Hosting\AspNet\AspNetHttpModule.cs" />
     <Compile Include="Headers.cs" />
-    <Compile Include="Hosting\AspNet\MiddlewareWithEnumerableBodyAdapter.cs" />
+    <Compile Include="Hosting\MiddlewareWithEnumerableBodyAdapter.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="IResponseBody.cs" />
     <Compile Include="Mock\MockRequest.cs" />
     <Compile Include="RackConfigBase.cs" />
-    <Compile Include="Hosting\AspNet\RackConfigurationSection.cs" />
+    <Compile Include="Hosting\RackConfigurationSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Proc.cs" />
@@ -57,7 +57,7 @@
     <Compile Include="RackVersion.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
-    <Compile Include="Hosting\AspNet\EnumerableBodyAdapter.cs" />
+    <Compile Include="Hosting\EnumerableBodyAdapter.cs" />
     <Compile Include="ResponseBody.cs" />
     <Compile Include="UrlMap.cs" />
     <Compile Include="Utils.cs" />

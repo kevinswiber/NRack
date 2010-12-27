@@ -18,7 +18,7 @@ namespace NRack.Example
             var response = _application.Call(environment);
             _response = response[2];
 
-            return new dynamic[] { response[0], new Headers {{"Content-Type", "text/plain"}}, this };
+            return new[] { response[0], new Headers {{"Content-Type", "text/plain"}}, this };
         }
 
         public void Each(Action<object> action)
