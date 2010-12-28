@@ -1,9 +1,24 @@
 NRack
 =====
-NRack is a port of Ruby's Rack framework to the .NET universe.
+NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .NET universe.
 
+"Hello World" Rack Application
+-------------------
+Here is a small example of an NRack application.
+
+		public class MyApp : IApplication
+		{
+				public dynamic[] Call(IDictionary<string, object> environment)
+				{
+						return new dynamic[] { 200, new Headers{{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>"};
+				}
+		}
+
+Check out NRack.Example and the NRack.Tests for more info.
+
+Setup
+-----
 Add the following to your Web.config:
-
 
 	 <system.web>
 		<compilation debug="true" targetFramework="4.0">
@@ -23,24 +38,15 @@ Add the following to your Web.config:
 
 In the root of your Web Application, create a RackConfig file that inherits from RackConfigBase:
 
-		using System.Web;
-		using NRack.Configuration;
-
-		namespace NRack.Example
+		public class RackConfig : RackConfigBase
 		{
-				public class RackConfig : RackConfigBase
+				public override void RackUp()
 				{
-						public override void RackUp()
-						{
-								Map("/app", 
-										rack =>
-												rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
-														.Run(new MyApp()));
-
-								Map("/env", rack => rack.Run(new EnvironmentOutput()));
-						}
+						Map("/app", 
+								rack =>
+										rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+												.Run(new MyApp()));
+		
+						Map("/env", rack => rack.Run(new EnvironmentOutput()));
 				}
 		}
-
-
-Check out NRack.Example and the NRack.Tests for more info.
