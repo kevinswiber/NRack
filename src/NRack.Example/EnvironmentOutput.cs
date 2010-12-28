@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NRack.Adapters;
 
 namespace NRack.Example
 {

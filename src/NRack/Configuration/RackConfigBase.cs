@@ -1,6 +1,6 @@
 using System;
 
-namespace NRack
+namespace NRack.Configuration
 {
     public abstract class RackConfigBase
     {

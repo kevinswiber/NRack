@@ -19,5 +19,10 @@ namespace NRack
         {
             return HttpUtility.ParseQueryString(queryString);
         }
+
+        public NameValueCollection ParseNestedQuery(string queryString)
+        {
+            return HttpUtility.ParseQueryString(queryString);
+        }
     }
 }

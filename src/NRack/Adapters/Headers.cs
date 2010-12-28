@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Specialized;
 
-namespace NRack
+namespace NRack.Adapters
 {
     public class Headers : NameValueCollection
     {

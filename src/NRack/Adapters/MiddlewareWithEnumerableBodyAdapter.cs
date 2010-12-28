@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace NRack.Hosting
+namespace NRack.Adapters
 {
     public class MiddlewareWithEnumerableBodyAdapter : IApplication
     {

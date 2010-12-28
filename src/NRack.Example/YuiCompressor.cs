@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using NRack.Adapters;
 using Yahoo.Yui.Compressor;
 
 namespace NRack.Example

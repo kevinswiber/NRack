@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
+using System.Text;
+using NRack.Adapters;
 
 namespace NRack.Mock
 {
@@ -8,7 +11,8 @@ namespace NRack.Mock
     {
         class FatalWarningException : InvalidOperationException
         {
-            public FatalWarningException(string message) : base(message)
+            public FatalWarningException(string message)
+                : base(message)
             {
             }
         }
@@ -106,20 +110,164 @@ namespace NRack.Mock
             dynamic app = opts.ContainsKey("lint") ? null /*new Lint(App)*/ : App;
 
             var errors = env["rack.errors"];
-            return new MockResponse((app.Call(env) + errors));
+            var response = app.Call(env);
+            var returnResponse = new dynamic[response.Length + 1];
+            Array.Copy(response, returnResponse, response.Length);
+
+            returnResponse[response.Length] = errors;
+
+            return new MockResponse(returnResponse);
         }
 
         public Dictionary<string, dynamic> EnvironmentFor(string uri = "", Dictionary<string, dynamic> opts = null)
         {
-            return new Dictionary<string, dynamic>();
+            if (opts == null)
+            {
+                opts = new Dictionary<string, dynamic>();
+            }
+
+            var env = new Dictionary<string, dynamic>();
+            env["rack.version"] = RackVersion.Version;
+            env["rack.input"] = new MemoryStream();
+            env["rack.errors"] = new MemoryStream();
+            env["rack.multithread"] = true;
+            env["rack.multiprocess"] = true;
+            env["rack.run_once"] = false;
+
+            if (!uri.StartsWith("/"))
+            {
+                uri = "/" + uri;
+            }
+
+            var newUri = new Uri(uri, UriKind.RelativeOrAbsolute);
+
+            env["REQUEST_METHOD"] = opts.ContainsKey("method") ? opts["method"].ToString().ToUpper() : "GET";
+
+            if (newUri.IsAbsoluteUri)
+            {
+                env["SERVER_NAME"] = !string.IsNullOrEmpty(newUri.Host) ? newUri.Host : "example.org";
+                env["SERVER_PORT"] = !string.IsNullOrEmpty(newUri.Port.ToString()) ? newUri.Port.ToString() : "80";
+                env["QUERY_STRING"] = !string.IsNullOrEmpty(newUri.Query) ? newUri.Query : string.Empty;
+                
+                var virtualPath = newUri.GetComponents(UriComponents.Path, UriFormat.Unescaped);
+                env["PATH_INFO"] = string.IsNullOrEmpty(virtualPath) ? "/" : virtualPath;
+                
+                env["rack.url_scheme"] = string.IsNullOrEmpty(newUri.Scheme) ? "http" : newUri.Scheme;
+                
+                env["HTTPS"] = env["rack.url_scheme"] == "https" ? "on" : "off";
+            }
+            else
+            {
+                env["SERVER_NAME"] = "example.org";
+                env["SERVER_PORT"] = 80;
+                env["QUERY_STRING"] = string.Empty;
+                env["PATH_INFO"] = string.IsNullOrEmpty(newUri.OriginalString) ? "/" : newUri.OriginalString;
+                env["rack.url_scheme"] = "http";
+                env["HTTPS"] = "off";
+            }
+            
+            env["SCRIPT_NAME"] = opts.ContainsKey("script_name") ? opts["script_name"] : string.Empty;
+
+            if (opts.ContainsKey("fatal"))
+            {
+                env["rack.errors"] = new FatalWarner();
+            }
+            else
+            {
+                env["rack.errors"] = new MemoryStream();
+            }
+
+            if (opts.ContainsKey("params"))
+            {
+                var parameters = opts["params"];
+
+                if (env["REQUEST_METHOD"] == "GET")
+                {
+                    if (parameters is string)
+                    {
+                        parameters = new Utils().ParseNestedQuery(parameters);
+                    }
+                    foreach(var parm in new Utils().ParseNestedQuery(env["QUERY_STRING"]))
+                    {
+                        parameters[parm.Key] = parm.Value;
+                    }
+                }
+
+                // TODO: Finish implementing.
+            }
+
+            if (opts.ContainsKey("input") && opts["input"] == null)
+            {
+                opts["input"] = string.Empty;
+            }
+
+            if (opts.ContainsKey("input"))
+            {
+                dynamic rackInput = null;
+
+                if (opts["input"] is string)
+                {
+                    var encoder = new UTF8Encoding();
+                    rackInput = new MemoryStream(encoder.GetBytes(opts["input"]));
+                }
+                else
+                {
+                    rackInput = opts["input"];
+                }
+
+                env["rack.input"] = rackInput;
+
+                env["CONTENT_LENGTH"] = env["rack.input"].Length.ToString();
+            }
+
+            foreach(var item in opts)
+            {
+                if (item.Key is string)
+                {
+                    env[item.Key] = item.Value;
+                }
+            }
+
+            return env;
         }
     }
 
     public class MockResponse
     {
-        public MockResponse(dynamic o)
+        public MockResponse(dynamic[] responseArray)
         {
-            throw new NotImplementedException();
+            Status = Convert.ToInt32(responseArray[0]);
+            OriginalHeaders = responseArray[1];
+            Headers = (Headers) responseArray[1];
+
+            var bodyList = new List<string>();
+            var body = (IResponseBody)responseArray[2];
+
+            body.Each(part => bodyList.Add(part.ToString()));
+
+            Body = new EnumerableBodyAdapter(bodyList);
+
+            var errors = responseArray.Length > 3 ? responseArray[3] : new MemoryStream();
+            if (errors is MemoryStream)
+            {
+                var errorStream = (MemoryStream) errors;
+
+                var pos = errorStream.Position;
+                errorStream.Position = 0;
+
+                var reader = new StreamReader(errorStream);
+                var errorString = reader.ReadToEnd();
+
+                errorStream.Position = pos;
+
+                Errors = errorString;
+            }
         }
+
+        public int Status { get; private set; }
+        public NameValueCollection OriginalHeaders { get; private set; }
+        public Headers Headers { get; private set; }
+        public IResponseBody Body { get; private set; }
+        public string Errors { get; set; }
     }
 }

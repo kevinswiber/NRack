@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using NRack.Hosting;
+using NRack.Adapters;
 
 namespace NRack
 {
@@ -23,24 +23,28 @@ namespace NRack
             return new Builder(initializeWith).ToApp();
         }
 
-        public void Use<T>(params dynamic[] parameters)
+        public Builder Use<T>(params dynamic[] parameters)
         {
-            Use(typeof (T), parameters);
+            return Use(typeof (T), parameters);
         }
 
-        public void Use(Type rackApplicationType, params dynamic[] parameters)
+        public Builder Use(Type rackApplicationType, params dynamic[] parameters)
         {
             _appList.Add(
                 new Proc((Func<object, object>)
                     (innerApp => InstantiateApplicationFromType(rackApplicationType, innerApp, parameters))));
+
+            return this;
         }
 
-        public void Run(dynamic application)
+        public Builder Run(dynamic application)
         {
             _appList.Add(new MiddlewareWithEnumerableBodyAdapter(application));
+
+            return this;
         }
         
-        public void Map(string url, Action<Builder> action)
+        public Builder Map(string url, Action<Builder> action)
         {
             if (_appList.Count == 0 || 
                 _appList.Last() is Proc || 
@@ -50,6 +54,8 @@ namespace NRack
             }
             ((Dictionary<string, object>) _appList.Last())
                 .Add(url, new Builder(action).ToApp());
+
+            return this;
         }
 
         public dynamic[] Call(IDictionary<string, object> environment)

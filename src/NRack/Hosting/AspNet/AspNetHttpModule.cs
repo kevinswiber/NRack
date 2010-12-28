@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
+using NRack.Configuration;
 
 namespace NRack.Hosting.AspNet
 {

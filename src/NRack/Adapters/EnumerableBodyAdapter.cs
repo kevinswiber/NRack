@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
-namespace NRack.Hosting
+namespace NRack.Adapters
 {
     public class EnumerableBodyAdapter : IResponseBody
     {
@@ -38,6 +39,15 @@ namespace NRack.Hosting
             }
 
             return body;
+        }
+
+        public override string ToString()
+        {
+            var returnList = new List<string>();
+
+            Each(x => returnList.Add(x.ToString()));
+
+            return string.Join(string.Empty, returnList.ToArray());
         }
     }
 }

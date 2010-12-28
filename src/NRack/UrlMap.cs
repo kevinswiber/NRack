@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using NRack.Adapters;
 
 namespace NRack
 {
@@ -56,14 +57,14 @@ namespace NRack
                 _mapping.Add(new {Host = host, Location = location, Match = match, App = app});
             }
 
-            Enumerable.OrderByDescending(_mapping, mapping => ((mapping.Host ?? string.Empty) + mapping.Location).Length);
+            _mapping = Enumerable.OrderByDescending(_mapping, mapping => ((mapping.Host ?? string.Empty) + mapping.Location).Length).ToList();
         }
 
         public dynamic[] Call(IDictionary<string, object> env)
         {
             var pathInfo = env["PATH_INFO"].ToString();
             var scriptName = env["SCRIPT_NAME"].ToString();
-            var httpHost = env["HTTP_HOST"].ToString();
+            var httpHost = env.ContainsKey("HTTP_HOST") ? env["HTTP_HOST"].ToString() : null;
             var serverName = env["SERVER_NAME"].ToString();
             var serverPort = env["SERVER_PORT"].ToString();
 
@@ -96,7 +97,7 @@ namespace NRack
                         continue;
                     }
 
-                    if (!string.IsNullOrEmpty(rest) && !rest.StartsWith("/"))
+                    if (!(string.IsNullOrEmpty(rest) || rest.StartsWith("/")))
                     {
                         continue;
                     }
