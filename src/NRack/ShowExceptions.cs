@@ -35,6 +35,7 @@ namespace NRack
 
         public IResponseBody Pretty(IDictionary<string, object> environment, Exception exception)
         {
+            //TODO: Actually make ShowExceptions pretty.
             return new EnumerableBodyAdapter(exception.ToString());
         }
     }
