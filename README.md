@@ -32,14 +32,15 @@ In the root of your Web Application, create a RackConfig file that inherits from
 				{
 						public override void RackUp()
 						{
-								Map("/app", rack =>
-									{
-											rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"));
-											rack.Run(new MyApp());
-									});
+								Map("/app", 
+										rack =>
+												rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+														.Run(new MyApp()));
+
 								Map("/env", rack => rack.Run(new EnvironmentOutput()));
 						}
 				}
 		}
+
 
 Check out NRack.Example and the NRack.Tests for more info.

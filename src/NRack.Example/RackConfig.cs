@@ -7,11 +7,11 @@ namespace NRack.Example
     {
         public override void RackUp()
         {
-            Map("/app", rack =>
-                            {
-                                rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"));
-                                rack.Run(new MyApp());
-                            });
+            Map("/app", 
+                rack =>
+                    rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+                        .Run(new MyApp()));
+
             Map("/env", rack => rack.Run(new EnvironmentOutput()));
         }
     }
