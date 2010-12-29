@@ -9,7 +9,7 @@ namespace NRack.Example
     {
         private readonly dynamic _application;
         private dynamic _response;
-        private IDictionary<string, object> _environment;
+        private IDictionary<string, dynamic> _environment;
 
         public EnvironmentOutput(dynamic application)
         {
@@ -20,7 +20,7 @@ namespace NRack.Example
         {
         }
 
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             _environment = environment;
 

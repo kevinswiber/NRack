@@ -13,7 +13,7 @@ namespace NRack
         }
         #region Implementation of IApplication
 
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace NRack
 
         #endregion
 
-        public IResponseBody Pretty(IDictionary<string, object> environment, Exception exception)
+        public IResponseBody Pretty(IDictionary<string, dynamic> environment, Exception exception)
         {
             //TODO: Actually make ShowExceptions pretty.
             return new EnumerableBodyAdapter(exception.ToString());

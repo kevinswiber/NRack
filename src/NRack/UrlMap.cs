@@ -11,17 +11,17 @@ namespace NRack
         // Anonymous Type: Host, Location, Match, App
         private List<dynamic> _mapping;
 
-        public UrlMap(Dictionary<string, object> map = null)
+        public UrlMap(Dictionary<string, dynamic> map = null)
         {
             if (map == null)
             {
-                map = new Dictionary<string, object>();
+                map = new Dictionary<string, dynamic>();
             }
 
             ReMap(map);
         }
 
-        public void ReMap(Dictionary<string, object> map)
+        public void ReMap(Dictionary<string, dynamic> map)
         {
             _mapping = new List<object>();
 
@@ -60,7 +60,7 @@ namespace NRack
             _mapping = Enumerable.OrderByDescending(_mapping, mapping => ((mapping.Host ?? string.Empty) + mapping.Location).Length).ToList();
         }
 
-        public dynamic[] Call(IDictionary<string, object> env)
+        public dynamic[] Call(IDictionary<string, dynamic> env)
         {
             var pathInfo = env["PATH_INFO"].ToString();
             var scriptName = env["SCRIPT_NAME"].ToString();

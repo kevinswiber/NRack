@@ -15,7 +15,7 @@ namespace NRack.Hosting.AspNet
         public void ProcessRequest(HttpContext context)
         {
             var rawEnvironment = context.Request.Params;
-            Dictionary<string, object> environment =
+            Dictionary<string, dynamic> environment =
                 rawEnvironment.AllKeys.ToDictionary(key => key, key => (object)rawEnvironment[key]);
 
             if ((string)environment["SCRIPT_NAME"] == string.Empty)
@@ -23,7 +23,7 @@ namespace NRack.Hosting.AspNet
                 environment["SCRIPT_NAME"] = "/";
             }
 
-            var rackEnvs = new Dictionary<string, object>
+            var rackEnvs = new Dictionary<string, dynamic>
                                {
                                    {"rack.version", RackVersion.Version},
                                    {"rack.input", context.Request.InputStream},

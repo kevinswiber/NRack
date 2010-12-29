@@ -16,11 +16,11 @@ namespace NRack.Tests
                 new Builder(builder =>
                             builder.Map("/", innerBuilder =>
                                           innerBuilder.Run(
-                                              new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                                              new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                               (env => new dynamic[] {200, new Headers(), new[] {"root"}}))))
                                 .Map("/sub", innerBuilder =>
                                              innerBuilder.Run(
-                                                 new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                                                 new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                                  (env => new dynamic[] {200, new Headers(), new[] {"sub"}}))))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
@@ -34,7 +34,7 @@ namespace NRack.Tests
                 builder.Use<NothingMiddleware>()
                     .Map("/", innerBuilder =>
                             innerBuilder.Run(
-                                new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                                new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                             (env =>
                                             {
                                                 env["new_key"] = "new_value";
@@ -50,7 +50,7 @@ namespace NRack.Tests
         {
             var app = new Builder(builder =>
                                   builder.Use<ShowExceptions>()
-                                      .Run(new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                                      .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                                     (env =>
                                                          { throw new Exception("Bzzzt!"); })))).ToApp();
 
@@ -65,7 +65,7 @@ namespace NRack.Tests
             var app = new Builder(
                 builder =>
                 builder.Use<ShowExceptions>()
-                    .Run(new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                    .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                   (env =>
                                        {
                                            throw new Exception("Bzzzt!");
@@ -83,7 +83,7 @@ namespace NRack.Tests
         //        builder =>
         //        builder.Use<ShowExceptions>()
         //            .Use<Auth.Basic>((Func<string, string, bool>) ((username, password) => password == "secret"))
-        //            .Run(new Proc((Func<IDictionary<string, object>, dynamic[]>)
+        //            .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
         //                          (env => new dynamic[] {200, new Headers(), new[] {"Hi Boss"}}))));
 
         //    var response = new MockRequest(app).Get("/");
@@ -96,7 +96,7 @@ namespace NRack.Tests
             var app = Builder.App(
                 builder =>
                 builder.Use<ShowExceptions>()
-                    .Run(new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                    .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                                   (env =>
                                   {
                                       throw new Exception("Bzzzt!");
@@ -129,7 +129,7 @@ namespace NRack.Tests
 
             #region Implementation of IApplication
 
-            public dynamic[] Call(IDictionary<string, object> environment)
+            public dynamic[] Call(IDictionary<string, dynamic> environment)
             {
                 if (_called > 0)
                 {
@@ -156,7 +156,7 @@ namespace NRack.Tests
 
         #region Implementation of IApplication
 
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             Environment = environment;
             var response = _app.Call(environment);
@@ -165,6 +165,6 @@ namespace NRack.Tests
 
         #endregion
 
-        public static IDictionary<string, object> Environment { get; private set; }
+        public static IDictionary<string, dynamic> Environment { get; private set; }
     }
 }

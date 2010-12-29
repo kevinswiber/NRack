@@ -14,7 +14,7 @@ namespace NRack.Tests
         public void Should_Dispatch_Paths_Correctly()
         {
             var app = new Proc(
-                (Func<IDictionary<string, object>, dynamic[]>)
+                (Func<IDictionary<string, dynamic>, dynamic[]>)
                 (env =>
                     new dynamic[] {200, 
                         new Headers
@@ -25,7 +25,7 @@ namespace NRack.Tests
                             },
                         string.Empty}));
 
-            var map = new UrlMap(new Dictionary<string, object>
+            var map = new UrlMap(new Dictionary<string, dynamic>
                                      {
                                          {"http://foo.org/bar", app},
                                          {"/foo", app},
@@ -63,17 +63,17 @@ namespace NRack.Tests
             Assert.AreEqual("/foo/bar", res["X-ScriptName"].ToString());
             Assert.AreEqual("//quux", res["X-PathInfo"].ToString());
 
-            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, object> {{"SCRIPT_NAME", "/bleh"}});
+            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, dynamic> {{"SCRIPT_NAME", "/bleh"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bleh/foo", res["X-ScriptName"].ToString());
             Assert.AreEqual("/quux", res["X-PathInfo"].ToString());
 
-            res = new MockRequest(map).Get("/bar", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/bar", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bar", res["X-ScriptName"].ToString());
             Assert.AreEqual(string.Empty, res["X-PathInfo"].ToString());
 
-            res = new MockRequest(map).Get("/bar/", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/bar/", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bar", res["X-ScriptName"].ToString());
             Assert.AreEqual("/", res["X-PathInfo"].ToString());
@@ -96,16 +96,16 @@ namespace NRack.Tests
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "bar.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "bar.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("bar.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("foo.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, object>
+                                           new Dictionary<string, dynamic>
                                                {{"HTTP_HOST", "subdomain.foo.org"}, {"SERVER_NAME", "foo.org"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("subdomain.foo.org", res["X-Position"]);
@@ -114,12 +114,12 @@ namespace NRack.Tests
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "example.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "example.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, object>
+                                           new Dictionary<string, dynamic>
                                                {{"HTTP_HOST", "example.org:9292"}, {"SERVER_PORT", "9292"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
@@ -128,13 +128,13 @@ namespace NRack.Tests
         [Test]
         public void Should_Be_Nestable()
         {
-            var map = new UrlMap(new Dictionary<string, object>{
+            var map = new UrlMap(new Dictionary<string, dynamic>{
             {"/foo", 
-                new UrlMap(new Dictionary<string, object>{
+                new UrlMap(new Dictionary<string, dynamic>{
                     {"/bar", 
-                        new UrlMap(new Dictionary<string, object>{
+                        new UrlMap(new Dictionary<string, dynamic>{
                             {"/quux",
-                    new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                    new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                     (env =>
                         new dynamic[] {200, new Headers
                                                 {
@@ -216,7 +216,7 @@ namespace NRack.Tests
         private static KeyValuePair<string, object> GetMapForDispatchTest(string uri, string xPosition)
         {
             return new KeyValuePair<string, object>(uri,
-                    new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                    new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                     (env =>
                         new dynamic[] {200, new Headers
                                                 {
@@ -231,7 +231,7 @@ namespace NRack.Tests
         private static KeyValuePair<string, object> GetMapForRootRouteTest(string uri, string xPosition)
         {
             return new KeyValuePair<string, object>(uri,
-                    new Proc((Func<IDictionary<string, object>, dynamic[]>)
+                    new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
                     (env =>
                         new dynamic[] {200, new Headers
                                                 {

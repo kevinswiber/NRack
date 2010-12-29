@@ -14,7 +14,7 @@ namespace NRack.Example
             _application = application;
         }
 
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             var response = _application.Call(environment);
             _response = response[2];

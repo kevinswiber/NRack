@@ -11,7 +11,7 @@ namespace NRack.Adapters
             _innerObject = innerObject;
         }
         
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             var response = _innerObject.Call(environment);
 

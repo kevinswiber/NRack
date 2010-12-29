@@ -62,7 +62,7 @@ namespace NRack
             {
                 if (!Environment.ContainsKey("rack.session"))
                 {
-                    Environment["rack.session"] = new Dictionary<string, object>();
+                    Environment["rack.session"] = new Dictionary<string, dynamic>();
                 }
 
                 return Environment["rack.session"];
@@ -75,7 +75,7 @@ namespace NRack
             {
                 if (!Environment.ContainsKey("rack.session_options"))
                 {
-                    Environment["rack.session_options"] = new Dictionary<string, object>();
+                    Environment["rack.session_options"] = new Dictionary<string, dynamic>();
                 }
 
 

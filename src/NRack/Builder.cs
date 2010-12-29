@@ -48,17 +48,17 @@ namespace NRack
         {
             if (_appList.Count == 0 || 
                 _appList.Last() is Proc || 
-                !(_appList.Last() is Dictionary<string, object>))
+                !(_appList.Last() is Dictionary<string, dynamic>))
             {
-                _appList.Add(new Dictionary<string, object>());
+                _appList.Add(new Dictionary<string, dynamic>());
             }
-            ((Dictionary<string, object>) _appList.Last())
+            ((Dictionary<string, dynamic>) _appList.Last())
                 .Add(url, new Builder(action).ToApp());
 
             return this;
         }
 
-        public dynamic[] Call(IDictionary<string, object> environment)
+        public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             return ToApp().Call(environment);
         }
@@ -67,7 +67,7 @@ namespace NRack
         {
             var appList = _appList.ToArray();
 
-            if (appList.Last() is Dictionary<string, object>)
+            if (appList.Last() is Dictionary<string, dynamic>)
             {
                 appList[appList.Length - 1] = new MiddlewareWithEnumerableBodyAdapter(new UrlMap(appList.Last()));
             }

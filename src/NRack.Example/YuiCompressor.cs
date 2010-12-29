@@ -16,7 +16,7 @@ namespace NRack.Example
             _root = root;
         }
 
-        public dynamic[] Call(IDictionary<string, object> env)
+        public dynamic[] Call(IDictionary<string, dynamic> env)
         {
             var root = _root;
 
