@@ -62,11 +62,11 @@ namespace NRack
 
         public dynamic[] Call(IDictionary<string, dynamic> env)
         {
-            var pathInfo = env["PATH_INFO"].ToString();
-            var scriptName = env["SCRIPT_NAME"].ToString();
-            var httpHost = env.ContainsKey("HTTP_HOST") ? env["HTTP_HOST"].ToString() : null;
-            var serverName = env["SERVER_NAME"].ToString();
-            var serverPort = env["SERVER_PORT"].ToString();
+            var pathInfo = env["PATH_INFO"];
+            var scriptName = env["SCRIPT_NAME"];
+            var httpHost = env.ContainsKey("HTTP_HOST") ? env["HTTP_HOST"] : null;
+            var serverName = env["SERVER_NAME"];
+            var serverPort = env["SERVER_PORT"];
 
             try
             {

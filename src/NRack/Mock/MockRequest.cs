@@ -141,7 +141,7 @@ namespace NRack.Mock
 
             var newUri = new Uri(uri, UriKind.RelativeOrAbsolute);
 
-            env["REQUEST_METHOD"] = opts.ContainsKey("method") ? opts["method"].ToString().ToUpper() : "GET";
+            env["REQUEST_METHOD"] = opts.ContainsKey("method") ? opts["method"].ToUpper() : "GET";
 
             if (newUri.IsAbsoluteUri)
             {

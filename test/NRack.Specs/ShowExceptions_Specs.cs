@@ -14,8 +14,8 @@ namespace NRack.Tests
         {
             dynamic res = null;
 
-            var req = new MockRequest(new ShowExceptions(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                                                  (env => { throw new InvalidOperationException(); }))));
+            var req = new MockRequest(new ShowExceptions(ApplicationFactory.Create(
+                env => { throw new InvalidOperationException(); })));
 
             Assert.DoesNotThrow(delegate { res = req.Get("/"); });
 

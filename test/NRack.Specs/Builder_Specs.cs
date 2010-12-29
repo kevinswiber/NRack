@@ -15,12 +15,10 @@ namespace NRack.Tests
             var app =
                 new Builder(builder =>
                             builder.Map("/", innerBuilder =>
-                                          innerBuilder.Run(
-                                              new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                              (env => new dynamic[] {200, new Headers(), new[] {"root"}}))))
-                                .Map("/sub", innerBuilder =>
-                                             innerBuilder.Run(
-                                                 new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
+                                          innerBuilder.Run(ApplicationFactory.Create(
+                                            env => new dynamic[] {200, new Headers(), new[] {"root"}})))
+                                    .Map("/sub", innerBuilder =>
+                                             innerBuilder.Run(ApplicationFactory.Create(
                                                  (env => new dynamic[] {200, new Headers(), new[] {"sub"}}))))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
@@ -33,13 +31,12 @@ namespace NRack.Tests
             var app = new Builder(builder =>
                 builder.Use<NothingMiddleware>()
                     .Map("/", innerBuilder =>
-                            innerBuilder.Run(
-                                new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                            (env =>
+                            innerBuilder.Run(ApplicationFactory.Create(
+                                            env =>
                                             {
                                                 env["new_key"] = "new_value";
                                                 return new dynamic[] {200, new Headers(), new[] {"root"}};
-                                            }))))).ToApp();
+                                            })))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
             Assert.AreEqual("new_value", NothingMiddleware.Environment["new_key"]);
@@ -50,9 +47,9 @@ namespace NRack.Tests
         {
             var app = new Builder(builder =>
                                   builder.Use<ShowExceptions>()
-                                      .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                                    (env =>
-                                                         { throw new Exception("Bzzzt!"); })))).ToApp();
+                                      .Run(ApplicationFactory.Create(
+                                                    env =>
+                                                         { throw new Exception("Bzzzt!"); }))).ToApp();
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
@@ -63,13 +60,11 @@ namespace NRack.Tests
         public void Should_Have_Implicit_To_App()
         {
             var app = new Builder(
-                builder =>
-                builder.Use<ShowExceptions>()
-                    .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                  (env =>
-                                       {
-                                           throw new Exception("Bzzzt!");
-                                       }))));
+                builder => builder.Use<ShowExceptions>()
+                    .Run(ApplicationFactory.Create(env =>
+                        {
+                            throw new Exception("Bzzzt!");
+                        })));
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
@@ -83,8 +78,8 @@ namespace NRack.Tests
         //        builder =>
         //        builder.Use<ShowExceptions>()
         //            .Use<Auth.Basic>((Func<string, string, bool>) ((username, password) => password == "secret"))
-        //            .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-        //                          (env => new dynamic[] {200, new Headers(), new[] {"Hi Boss"}}))));
+        //            .Run(ApplicationFactory.Create(
+        //                          env => new dynamic[] {200, new Headers(), new[] {"Hi Boss"}})));
 
         //    var response = new MockRequest(app).Get("/");
         //    Assert.AreEqual(401, response.Status);
@@ -96,11 +91,10 @@ namespace NRack.Tests
             var app = Builder.App(
                 builder =>
                 builder.Use<ShowExceptions>()
-                    .Run(new Proc((Func<IDictionary<string, dynamic>, dynamic[]>)
-                                  (env =>
+                    .Run(ApplicationFactory.Create(env =>
                                   {
                                       throw new Exception("Bzzzt!");
-                                  }))));
+                                  })));
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
