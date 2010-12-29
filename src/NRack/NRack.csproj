@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\ApplicationFactory.cs" />
+    <Compile Include="Auth\Abstract\HandlerBase.cs" />
+    <Compile Include="Auth\Abstract\RequestBase.cs" />
     <Compile Include="Hosting\AspNet\AspNetHttpModule.cs" />
     <Compile Include="Adapters\Headers.cs" />
     <Compile Include="Adapters\MiddlewareWithEnumerableBodyAdapter.cs" />
