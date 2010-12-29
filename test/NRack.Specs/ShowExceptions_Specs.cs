@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
 using NRack.Adapters;
 using NRack.Mock;
 using NUnit.Framework;
 
-namespace NRack.Tests
+namespace NRack.Specs
 {
     [TestFixture]
     public class ShowExceptions_Specs

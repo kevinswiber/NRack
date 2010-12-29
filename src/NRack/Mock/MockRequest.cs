@@ -273,7 +273,7 @@ namespace NRack.Mock
         }
 
         public int Status { get; private set; }
-        public NameValueCollection OriginalHeaders { get; private set; }
+        public Headers OriginalHeaders { get; private set; }
         public Headers Headers { get; private set; }
         public IResponseBody Body { get; private set; }
         public string Errors { get; set; }

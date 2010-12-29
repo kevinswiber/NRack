@@ -3,15 +3,17 @@ using System.Linq;
 
 namespace NRack.Auth.Abstract
 {
-    public abstract class RequestBase
+    public abstract class AuthRequestBase
     {
         private static readonly string[] AuthorizationKeys =
             new[] { "HTTP_AUTHORIZATION", "X-HTTP_AUTHORIZATION", "X_HTTP_AUTHORIZATION" };
 
         private string _authorizationKey;
-        private string[] _parts;
+        private IEnumerable<string> _parts;
+        private string _scheme;
+        private string _params;
 
-        protected RequestBase(IDictionary<string, object> environment)
+        protected AuthRequestBase(IDictionary<string, object> environment)
         {
             Environment = environment;
         }
@@ -23,7 +25,7 @@ namespace NRack.Auth.Abstract
             return AuthorizationKey != null;
         }
 
-        public string[] Parts
+        public IEnumerable<string> Parts
         {
             get
             {
@@ -32,12 +34,25 @@ namespace NRack.Auth.Abstract
             }
         }
 
+        public string Scheme
+        {
+            get { return _scheme ?? (_scheme = Parts.First().ToLower()); }
+        }
+
+        public string Params { get { return _params ?? (_params = Parts.Last()); } }
+
         private string AuthorizationKey
         {
             get {
                 return _authorizationKey ??
-                       (_authorizationKey = AuthorizationKeys.Where(key => Environment.ContainsKey(key)).First());
+                       (_authorizationKey = GetAuthorizationKey());
             }
+        }
+
+        private string GetAuthorizationKey()
+        {
+            var authKeys = AuthorizationKeys.Where(key => Environment.ContainsKey(key));
+            return authKeys.Any() ? authKeys.First() : null;
         }
     }
 }

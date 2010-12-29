@@ -4,7 +4,7 @@ using NRack.Adapters;
 using NRack.Mock;
 using NUnit.Framework;
 
-namespace NRack.Tests
+namespace NRack.Specs
 {
     [TestFixture]
     public class Builder_Specs
@@ -123,7 +123,7 @@ namespace NRack.Tests
 
             #region Implementation of IApplication
 
-            public dynamic[] Call(IDictionary<string, dynamic> environment)
+            public dynamic[] Call(IDictionary<string, object> environment)
             {
                 if (_called > 0)
                 {
@@ -150,7 +150,7 @@ namespace NRack.Tests
 
         #region Implementation of IApplication
 
-        public dynamic[] Call(IDictionary<string, dynamic> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             Environment = environment;
             var response = _app.Call(environment);
@@ -159,6 +159,6 @@ namespace NRack.Tests
 
         #endregion
 
-        public static IDictionary<string, dynamic> Environment { get; private set; }
+        public static IDictionary<string, object> Environment { get; private set; }
     }
 }
