@@ -34,10 +34,10 @@ namespace NRack
                 var matchingParts = fullUrlLocationRegex.Match(location);
                 if (matchingParts.Success)
                 {
-                    var captures = matchingParts.Captures;
+                    var groups = matchingParts.Groups;
 
-                    host = captures[0].Value;
-                    location = captures[1].Value;
+                    host = groups[1].Value;
+                    location = groups[2].Value;
                 }
 
                 if (!location.StartsWith("/"))

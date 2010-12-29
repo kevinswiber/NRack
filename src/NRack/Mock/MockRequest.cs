@@ -222,10 +222,7 @@ namespace NRack.Mock
 
             foreach(var item in opts)
             {
-                if (item.Key is string)
-                {
-                    env[item.Key] = item.Value;
-                }
+                env[item.Key] = item.Value;
             }
 
             return env;
@@ -241,7 +238,13 @@ namespace NRack.Mock
             Headers = (Headers) responseArray[1];
 
             var bodyList = new List<string>();
-            var body = (IResponseBody)responseArray[2];
+            var body = responseArray[2] as IResponseBody;
+
+            if (body == null)
+            {
+                body = new EnumerableBodyAdapter(responseArray[2]);
+            }
+
 
             body.Each(part => bodyList.Add(part.ToString()));
 
@@ -262,6 +265,11 @@ namespace NRack.Mock
 
                 Errors = errorString;
             }
+        }
+
+        public string this[string name]
+        {
+            get { return Headers[name]; } 
         }
 
         public int Status { get; private set; }
