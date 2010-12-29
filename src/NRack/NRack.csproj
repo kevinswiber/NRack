@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adapters\ApplicationFactory.cs" />
+    <Compile Include="Auth\Abstract\AuthHandlerBase.cs" />
+    <Compile Include="Auth\Abstract\AuthRequestBase.cs" />
+    <Compile Include="Auth\BasicAuthHandler.cs" />
     <Compile Include="Hosting\AspNet\AspNetHttpModule.cs" />
     <Compile Include="Adapters\Headers.cs" />
     <Compile Include="Adapters\MiddlewareWithEnumerableBodyAdapter.cs" />

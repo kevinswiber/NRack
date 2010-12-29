@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using NRack.Adapters;
+using NRack.Auth;
 using NRack.Mock;
 using NUnit.Framework;
 
-namespace NRack.Tests
+namespace NRack.Specs
 {
     [TestFixture]
     public class Builder_Specs
@@ -71,19 +72,19 @@ namespace NRack.Tests
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
         }
 
-        //[Test]
-        //public void Should_Support_Blocks_On_Use()
-        //{
-        //    var app = new Builder(
-        //        builder =>
-        //        builder.Use<ShowExceptions>()
-        //            .Use<Auth.Basic>((Func<string, string, bool>) ((username, password) => password == "secret"))
-        //            .Run(ApplicationFactory.Create(
-        //                          env => new dynamic[] {200, new Headers(), new[] {"Hi Boss"}})));
+        [Test]
+        public void Should_Support_Blocks_On_Use()
+        {
+            var app = new Builder(
+                builder =>
+                builder.Use<ShowExceptions>()
+                    .Use<BasicAuthHandler>((Func<string, string, bool>)((username, password) => password == "secret"))
+                    .Run(ApplicationFactory.Create(
+                                  env => new dynamic[] { 200, new Headers(), new[] { "Hi Boss" } })));
 
-        //    var response = new MockRequest(app).Get("/");
-        //    Assert.AreEqual(401, response.Status);
-        //}
+            var response = new MockRequest(app).Get("/");
+            Assert.AreEqual(401, response.Status);
+        }
 
         [Test]
         public void Should_Have_Explicit_To_App()
@@ -123,7 +124,7 @@ namespace NRack.Tests
 
             #region Implementation of IApplication
 
-            public dynamic[] Call(IDictionary<string, dynamic> environment)
+            public dynamic[] Call(IDictionary<string, object> environment)
             {
                 if (_called > 0)
                 {
@@ -150,7 +151,7 @@ namespace NRack.Tests
 
         #region Implementation of IApplication
 
-        public dynamic[] Call(IDictionary<string, dynamic> environment)
+        public dynamic[] Call(IDictionary<string, object> environment)
         {
             Environment = environment;
             var response = _app.Call(environment);
@@ -159,6 +160,6 @@ namespace NRack.Tests
 
         #endregion
 
-        public static IDictionary<string, dynamic> Environment { get; private set; }
+        public static IDictionary<string, object> Environment { get; private set; }
     }
 }

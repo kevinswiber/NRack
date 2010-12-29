@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Specialized;
+using NRack.Adapters;
 
 namespace NRack.Hosting.AspNet
 {
@@ -60,7 +61,16 @@ namespace NRack.Hosting.AspNet
         
         private static NameValueCollection GetHeaders(dynamic[] parameters)
         {
-            return parameters.Length < 2 ? null : parameters[1];
+            Headers headers = parameters.Length < 2 ? null : parameters[1];
+
+            var nvCollection = new NameValueCollection();
+
+            if (headers != null)
+            {
+                headers.Each(pair => nvCollection.Add(pair.Key, pair.Value));
+            }
+
+            return nvCollection;
         }
     }
 }

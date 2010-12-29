@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace NRack.Adapters
 {
-    public class Headers : NameValueCollection
+    public class Headers : Dictionary<string, dynamic>
     {
-        public void Each(Action<object> action)
+        public void Each(Action<dynamic> action)
         {
-            foreach (var key in AllKeys)
+            foreach (var key in Keys)
             {
                 action(new { Key = key, Value = this[key] });
             }

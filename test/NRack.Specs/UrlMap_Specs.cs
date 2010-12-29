@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using NRack.Adapters;
 using NRack.Mock;
 using NUnit.Framework;
 
-namespace NRack.Tests
+namespace NRack.Specs
 {
     [TestFixture]
     public class UrlMap_Specs
@@ -24,7 +23,7 @@ namespace NRack.Tests
                             },
                         string.Empty});
 
-            var map = new UrlMap(new Dictionary<string, dynamic>
+            var map = new UrlMap(new Dictionary<string, object>
                                      {
                                          {"http://foo.org/bar", app},
                                          {"/foo", app},
@@ -62,17 +61,17 @@ namespace NRack.Tests
             Assert.AreEqual("/foo/bar", res["X-ScriptName"]);
             Assert.AreEqual("//quux", res["X-PathInfo"]);
 
-            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, dynamic> {{"SCRIPT_NAME", "/bleh"}});
+            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, object> {{"SCRIPT_NAME", "/bleh"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bleh/foo", res["X-ScriptName"]);
             Assert.AreEqual("/quux", res["X-PathInfo"]);
 
-            res = new MockRequest(map).Get("/bar", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/bar", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bar", res["X-ScriptName"]);
             Assert.AreEqual(string.Empty, res["X-PathInfo"]);
 
-            res = new MockRequest(map).Get("/bar/", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/bar/", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bar", res["X-ScriptName"]);
             Assert.AreEqual("/", res["X-PathInfo"]);
@@ -95,16 +94,16 @@ namespace NRack.Tests
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "bar.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "bar.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("bar.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "foo.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("foo.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, dynamic>
+                                           new Dictionary<string, object>
                                                {{"HTTP_HOST", "subdomain.foo.org"}, {"SERVER_NAME", "foo.org"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("subdomain.foo.org", res["X-Position"]);
@@ -113,12 +112,12 @@ namespace NRack.Tests
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
-            res = new MockRequest(map).Get("/", new Dictionary<string, dynamic> { { "HTTP_HOST", "example.org" } });
+            res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "example.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, dynamic>
+                                           new Dictionary<string, object>
                                                {{"HTTP_HOST", "example.org:9292"}, {"SERVER_PORT", "9292"}});
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
@@ -127,11 +126,11 @@ namespace NRack.Tests
         [Test]
         public void Should_Be_Nestable()
         {
-            var map = new UrlMap(new Dictionary<string, dynamic>{
+            var map = new UrlMap(new Dictionary<string, object>{
             {"/foo", 
-                new UrlMap(new Dictionary<string, dynamic>{
+                new UrlMap(new Dictionary<string, object>{
                     {"/bar", 
-                        new UrlMap(new Dictionary<string, dynamic>{
+                        new UrlMap(new Dictionary<string, object>{
                             {"/quux",
                     ApplicationFactory.Create(env =>
                         new dynamic[] {200, new Headers
