@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using NRack.Adapters;
+using NRack.Auth;
 using NRack.Mock;
 using NUnit.Framework;
 
@@ -71,19 +72,19 @@ namespace NRack.Specs
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
         }
 
-        //[Test]
-        //public void Should_Support_Blocks_On_Use()
-        //{
-        //    var app = new Builder(
-        //        builder =>
-        //        builder.Use<ShowExceptions>()
-        //            .Use<Auth.Basic>((Func<string, string, bool>) ((username, password) => password == "secret"))
-        //            .Run(ApplicationFactory.Create(
-        //                          env => new dynamic[] {200, new Headers(), new[] {"Hi Boss"}})));
+        [Test]
+        public void Should_Support_Blocks_On_Use()
+        {
+            var app = new Builder(
+                builder =>
+                builder.Use<ShowExceptions>()
+                    .Use<BasicAuthHandler>((Func<string, string, bool>)((username, password) => password == "secret"))
+                    .Run(ApplicationFactory.Create(
+                                  env => new dynamic[] { 200, new Headers(), new[] { "Hi Boss" } })));
 
-        //    var response = new MockRequest(app).Get("/");
-        //    Assert.AreEqual(401, response.Status);
-        //}
+            var response = new MockRequest(app).Get("/");
+            Assert.AreEqual(401, response.Status);
+        }
 
         [Test]
         public void Should_Have_Explicit_To_App()
