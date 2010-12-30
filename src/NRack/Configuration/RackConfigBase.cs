@@ -14,24 +14,24 @@ namespace NRack.Configuration
             RackUp();
         }
 
-        public void Use<T>(params dynamic[] parameters)
+        public Builder Use<T>(params dynamic[] parameters)
         {
-            _builder.Use<T>(parameters);
+            return _builder.Use<T>(parameters);
         }
 
-        public void Use(Type rackApplicationType, params dynamic[] parameters)
+        public Builder Use(Type rackApplicationType, params dynamic[] parameters)
         {
-            _builder.Use(rackApplicationType, parameters);
+            return _builder.Use(rackApplicationType, parameters);
         }
 
-        public void Run(dynamic rackApplicationType)
+        public Builder Run(dynamic rackApplicationType)
         {
-            _builder.Run(rackApplicationType);
+            return _builder.Run(rackApplicationType);
         }
 
-        public void Map(string url, Action<Builder> action)
+        public Builder Map(string url, Action<Builder> action)
         {
-            _builder.Map(url, action);
+           return _builder.Map(url, action);
         }
     }
 }

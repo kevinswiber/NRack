@@ -1,4 +1,6 @@
+using System;
 using System.Web;
+using NRack.Auth;
 using NRack.Configuration;
 
 namespace NRack.Example
@@ -7,12 +9,13 @@ namespace NRack.Example
     {
         public override void RackUp()
         {
-            Map("/app", 
+            Use<BasicAuthHandler>("Lobster", 
+                (Func<string, string, bool>)((username, password) => password == "secret"))
+            .Map("/app", 
                 rack =>
                     rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
-                        .Run(new MyApp()));
-
-            Map("/env", rack => rack.Run(new EnvironmentOutput()));
+                        .Run(new MyApp()))
+            .Map("/env", rack => rack.Run(new EnvironmentOutput()));
         }
     }
 }
