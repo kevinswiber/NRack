@@ -52,7 +52,7 @@
     <Compile Include="Adapters\MiddlewareWithEnumerableBodyAdapter.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="IResponseBody.cs" />
-    <Compile Include="Configuration\RackConfigBase.cs" />
+    <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />
     <Compile Include="Mock\MockRequest.cs">
       <SubType>Code</SubType>

@@ -1,6 +1,6 @@
 NRack
 =====
-NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .NET universe.
+NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .NET universe using C#.  **Note:  The master branch is still in an early, pre-release state subject to high volatility.**  Keep watching as new commits will roll in with some frequency.
 
 "Hello World" Rack Application
 -------------------
@@ -14,39 +14,48 @@ Here is a small example of an NRack application.
 			}
 	}
 
-Check out NRack.Example and the NRack.Tests for more info.
+Check out NRack.Example and NRack.Tests for more info.
 
 Setup
 -----
 Add the following to your Web.config:
 
-	<system.web>
-	<compilation debug="true" targetFramework="4.0">
-		<assemblies>
-			<add assembly="NRack, Version=1.0.0.0, Culture=neutral"/>
-		</assemblies>
-	</compilation>
-	<httpModules>
-		<add name="RackModule" type="NRack.Hosting.AspNet.AspNetHttpModule, NRack, Version=1.0.0.0, Culture=neutral"/>
-	</httpModules>
-	<httpHandlers>
-		<clear/>
-		<add verb="**" path="**" type="NRack.Hosting.AspNet.AspNetHandler, NRack, Version=1.0.0.0, Culture=neutral" validate="true"/>
-		<add verb="**" path="Default.aspx" type="NRack.Hosting.AspNet.AspNetHandler, NRack, Version=1.0.0.0, Culture=neutral" validate="true"/>
-	</httpHandlers>
-	</system.web>
+	<configuration>
+		<system.web>
+			<httpHandlers>
+				<add verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
+			</httpHandlers>
+			<compilation debug="true"/></system.web>
+		<system.webServer>
+			<validation validateIntegratedModeConfiguration="false"/>
+			<modules runAllManagedModulesForAllRequests="true"/>
+			<handlers>
+				<add name="RackHandler" verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
+			</handlers>
+		</system.webServer>
+	</configuration>
 
-In the root of your Web Application, create a RackConfig file that inherits from RackConfigBase:
 
-	public class RackConfig : RackConfigBase
+In the root of your Web Application, create a RackConfig file that inherits from NRack.Configuration.ConfigBase:
+
+	public class Config : ConfigBase
 	{
 			public override void RackUp()
 			{
-					Map("/app", 
-							rack =>
-									rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
-											.Run(new MyApp()));
-	
-					Map("/env", rack => rack.Run(new EnvironmentOutput()));
+					Run(environment =>
+									new dynamic[] { 200, new Hash {{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>" });
 			}
 	}
+
+Here's a more complex RackUp call:
+	public override void RackUp()
+	{
+			Use<BasicAuthHandler>("Lobster",
+					(Func<string, string, bool>)((username, password) => password == "secret"))
+			.Map("/app",
+					rack =>
+							rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+									.Run(new MyApp()))
+			.Map("/env", rack => rack.Run(new EnvironmentOutput()));
+	}
+

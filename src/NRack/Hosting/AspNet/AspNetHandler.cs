@@ -12,16 +12,16 @@ namespace NRack.Hosting.AspNet
     public class AspNetHandler : IHttpHandler
     {
         public static Func<Builder> GetBuilderInContext;
-        public static RackConfigBase RackConfig;
+        public static ConfigBase Config;
 
         #region Implementation of IHttpHandler
 
         public void ProcessRequest(HttpContext context)
         {
-            if (RackConfig == null)
+            if (Config == null)
             {
-                RackConfig = GetRackConfigInstance();
-                GetBuilderInContext = () => new Builder(RackConfig.ExecuteRackUp);
+                Config = GetRackConfigInstance();
+                GetBuilderInContext = () => new Builder(Config.ExecuteRackUp);
             }
 
             var rawEnvironment = context.Request.Params;
@@ -98,7 +98,7 @@ namespace NRack.Hosting.AspNet
 
         #endregion
 
-        private RackConfigBase GetRackConfigInstance()
+        private ConfigBase GetRackConfigInstance()
         {
             var rackConfigSection = (RackConfigurationSection)ConfigurationManager.GetSection("rack");
 
@@ -106,7 +106,7 @@ namespace NRack.Hosting.AspNet
                                      ? Type.GetType(rackConfigSection.Type)
                                      : GetRackConfigTypeFromReferencedAssemblies();
 
-            return ((RackConfigBase)Activator.CreateInstance(rackConfigType));
+            return ((ConfigBase)Activator.CreateInstance(rackConfigType));
         }
 
         private static Type GetRackConfigTypeFromReferencedAssemblies()
@@ -142,7 +142,7 @@ namespace NRack.Hosting.AspNet
 
         private static bool TypeIsRackConfig(Type type)
         {
-            return typeof(RackConfigBase).IsAssignableFrom(type);
+            return typeof(ConfigBase).IsAssignableFrom(type);
         }
     }
 }

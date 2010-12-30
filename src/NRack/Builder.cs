@@ -37,9 +37,23 @@ namespace NRack
             return this;
         }
 
+        public Builder Use(Func<IDictionary<string, dynamic>, dynamic[]> application)
+        {
+            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(new Proc(application)));
+
+            return this;
+        }
+
         public Builder Run(dynamic application)
         {
             _appList.Add(new MiddlewareWithEnumerableBodyAdapter(application));
+
+            return this;
+        }
+
+        public Builder Run(Func<IDictionary<string, dynamic>, dynamic[]> application)
+        {
+            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(new Proc(application)));
 
             return this;
         }
@@ -54,6 +68,13 @@ namespace NRack
             }
             ((Dictionary<string, dynamic>) _appList.Last())
                 .Add(url, new Builder(action).ToApp());
+
+            return this;
+        }
+
+        public Builder Map(string url, Func<IDictionary<string, dynamic>, dynamic[]> application)
+        {
+            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(application));
 
             return this;
         }
