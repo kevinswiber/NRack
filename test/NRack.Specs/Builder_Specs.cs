@@ -16,11 +16,11 @@ namespace NRack.Specs
             var app =
                 new Builder(builder =>
                             builder.Map("/", innerBuilder =>
-                                          innerBuilder.Run(ApplicationFactory.Create(
-                                            env => new dynamic[] {200, new Hash(), new[] {"root"}})))
+                                          innerBuilder.Run(env => 
+                                              new dynamic[] {200, new Hash(), new[] {"root"}})))
                                     .Map("/sub", innerBuilder =>
-                                             innerBuilder.Run(ApplicationFactory.Create(
-                                                 (env => new dynamic[] {200, new Hash(), new[] {"sub"}}))))).ToApp();
+                                             innerBuilder.Run(env => 
+                                                 new dynamic[] {200, new Hash(), new[] {"sub"}})).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
             Assert.AreEqual("sub", new MockRequest(app).Get("/sub").Body.ToString());
@@ -32,12 +32,11 @@ namespace NRack.Specs
             var app = new Builder(builder =>
                 builder.Use<NothingMiddleware>()
                     .Map("/", innerBuilder =>
-                            innerBuilder.Run(ApplicationFactory.Create(
-                                            env =>
+                            innerBuilder.Run(env =>
                                             {
                                                 env["new_key"] = "new_value";
                                                 return new dynamic[] {200, new Hash(), new[] {"root"}};
-                                            })))).ToApp();
+                                            }))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
             Assert.AreEqual("new_value", NothingMiddleware.Environment["new_key"]);
@@ -48,9 +47,7 @@ namespace NRack.Specs
         {
             var app = new Builder(builder =>
                                   builder.Use<ShowExceptions>()
-                                      .Run(ApplicationFactory.Create(
-                                                    env =>
-                                                         { throw new Exception("Bzzzt!"); }))).ToApp();
+                                      .Run(env => { throw new Exception("Bzzzt!"); })).ToApp();
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
@@ -62,10 +59,7 @@ namespace NRack.Specs
         {
             var app = new Builder(
                 builder => builder.Use<ShowExceptions>()
-                    .Run(ApplicationFactory.Create(env =>
-                        {
-                            throw new Exception("Bzzzt!");
-                        })));
+                    .Run(env => { throw new Exception("Bzzzt!"); }));
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
@@ -79,8 +73,7 @@ namespace NRack.Specs
                 builder =>
                 builder.Use<ShowExceptions>()
                     .Use<BasicAuthHandler>((Func<string, string, bool>)((username, password) => password == "secret"))
-                    .Run(ApplicationFactory.Create(
-                                  env => new dynamic[] { 200, new Hash(), new[] { "Hi Boss" } })));
+                    .Run(env => new dynamic[] { 200, new Hash(), new[] { "Hi Boss" } }));
 
             var response = new MockRequest(app).Get("/");
             Assert.AreEqual(401, response.Status);
@@ -92,10 +85,7 @@ namespace NRack.Specs
             var app = Builder.App(
                 builder =>
                 builder.Use<ShowExceptions>()
-                    .Run(ApplicationFactory.Create(env =>
-                                  {
-                                      throw new Exception("Bzzzt!");
-                                  })));
+                    .Run(env => { throw new Exception("Bzzzt!"); }));
 
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
