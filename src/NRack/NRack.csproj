@@ -58,6 +58,7 @@
     <Compile Include="Mock\MockRequest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Mock\MockResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder.cs" />
     <Compile Include="Adapters\Proc.cs" />
