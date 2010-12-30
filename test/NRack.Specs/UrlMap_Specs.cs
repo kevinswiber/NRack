@@ -15,7 +15,7 @@ namespace NRack.Specs
             var app = ApplicationFactory.Create
                 (env =>
                     new dynamic[] {200, 
-                        new Headers
+                        new Hash
                             {
                                 {"X-ScriptName", env["SCRIPT_NAME"]}, 
                                 {"X-PathInfo", env["PATH_INFO"]},
@@ -133,7 +133,7 @@ namespace NRack.Specs
                         new UrlMap(new Dictionary<string, object>{
                             {"/quux",
                     ApplicationFactory.Create(env =>
-                        new dynamic[] {200, new Headers
+                        new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},
                                                     {"X-Position", "/foo/bar/quux"},
@@ -214,7 +214,7 @@ namespace NRack.Specs
         {
             return new KeyValuePair<string, object>(uri,
                     ApplicationFactory.Create(env =>
-                        new dynamic[] {200, new Headers
+                        new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},
                                                     {"X-Position", xPosition},
@@ -228,7 +228,7 @@ namespace NRack.Specs
         {
             return new KeyValuePair<string, object>(uri,
                     ApplicationFactory.Create(env =>
-                        new dynamic[] {200, new Headers
+                        new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},
                                                     {"X-Position", xPosition},

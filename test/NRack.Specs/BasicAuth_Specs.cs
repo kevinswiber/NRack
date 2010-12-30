@@ -22,7 +22,7 @@ namespace NRack.Specs
                 return
                     ApplicationFactory.Create(
                         env =>
-                        new[] {200, new Headers {{"Content-Type", "text/plain"}}, "Hi " + env["REMOTE_USER"]});
+                        new[] {200, new Hash {{"Content-Type", "text/plain"}}, "Hi " + env["REMOTE_USER"]});
             }
         }
 

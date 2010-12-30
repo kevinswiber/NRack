@@ -42,7 +42,7 @@ namespace NRack.Example
                 responseCode = 200;
             }
 
-            return new dynamic[] {responseCode, new Headers {{"Content-Type", "text/plain"}}, new[] {response}};
+            return new dynamic[] {responseCode, new Hash {{"Content-Type", "text/plain"}}, new[] {response}};
         }
     }
 }

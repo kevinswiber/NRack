@@ -17,10 +17,10 @@ namespace NRack.Specs
                 new Builder(builder =>
                             builder.Map("/", innerBuilder =>
                                           innerBuilder.Run(ApplicationFactory.Create(
-                                            env => new dynamic[] {200, new Headers(), new[] {"root"}})))
+                                            env => new dynamic[] {200, new Hash(), new[] {"root"}})))
                                     .Map("/sub", innerBuilder =>
                                              innerBuilder.Run(ApplicationFactory.Create(
-                                                 (env => new dynamic[] {200, new Headers(), new[] {"sub"}}))))).ToApp();
+                                                 (env => new dynamic[] {200, new Hash(), new[] {"sub"}}))))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
             Assert.AreEqual("sub", new MockRequest(app).Get("/sub").Body.ToString());
@@ -36,7 +36,7 @@ namespace NRack.Specs
                                             env =>
                                             {
                                                 env["new_key"] = "new_value";
-                                                return new dynamic[] {200, new Headers(), new[] {"root"}};
+                                                return new dynamic[] {200, new Hash(), new[] {"root"}};
                                             })))).ToApp();
 
             Assert.AreEqual("root", new MockRequest(app).Get("/").Body.ToString());
@@ -80,7 +80,7 @@ namespace NRack.Specs
                 builder.Use<ShowExceptions>()
                     .Use<BasicAuthHandler>((Func<string, string, bool>)((username, password) => password == "secret"))
                     .Run(ApplicationFactory.Create(
-                                  env => new dynamic[] { 200, new Headers(), new[] { "Hi Boss" } })));
+                                  env => new dynamic[] { 200, new Hash(), new[] { "Hi Boss" } })));
 
             var response = new MockRequest(app).Get("/");
             Assert.AreEqual(401, response.Status);
@@ -133,7 +133,7 @@ namespace NRack.Specs
 
                 _called++;
 
-                return new dynamic[] {200, new Headers {{"Content-Type", "text/plain"}}, new[] {"OK"}};
+                return new dynamic[] {200, new Hash {{"Content-Type", "text/plain"}}, new[] {"OK"}};
             }
 
             #endregion

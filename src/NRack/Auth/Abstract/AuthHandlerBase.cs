@@ -23,7 +23,7 @@ namespace NRack.Auth.Abstract
                 wwwAuthenticate = Challenge;
             }
 
-            return new dynamic[] {401, new Headers{
+            return new dynamic[] {401, new Hash{
                 {"Content-Type", "text/plain"}, 
                 {"Content-Length", "0"}, 
                 {"WWW-Authenticate", wwwAuthenticate}},
@@ -32,7 +32,7 @@ namespace NRack.Auth.Abstract
 
         protected dynamic[] BadRequest()
         {
-            return new dynamic[] {400, new Headers{{"Content-Type", "text/plain"}, {"Content-Length", "0"}}, new string[0]};
+            return new dynamic[] {400, new Hash{{"Content-Type", "text/plain"}, {"Content-Length", "0"}}, new string[0]};
         }
 
         protected abstract string Challenge { get; }

@@ -25,7 +25,7 @@ namespace NRack
                 return new dynamic[] 
                 {
                     500, 
-                    new Headers{{"Content-Type", "text/html"}, {"Content-Length", backtrace.ToString().Length.ToString()}}, 
+                    new Hash{{"Content-Type", "text/html"}, {"Content-Length", backtrace.ToString().Length.ToString()}}, 
                     backtrace
                 };
             }

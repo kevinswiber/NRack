@@ -31,7 +31,7 @@ namespace NRack.Example
                 return new[] { response[0], response[1], this };
             }
 
-            return new dynamic[] {200, new Headers{{"Content-Type", "text/html"}}, this};
+            return new dynamic[] {200, new Hash{{"Content-Type", "text/html"}}, this};
         }
 
         public void Each(Action<object> action)

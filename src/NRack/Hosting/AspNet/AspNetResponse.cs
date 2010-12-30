@@ -61,7 +61,7 @@ namespace NRack.Hosting.AspNet
         
         private static NameValueCollection GetHeaders(dynamic[] parameters)
         {
-            Headers headers = parameters.Length < 2 ? null : parameters[1];
+            Hash headers = parameters.Length < 2 ? null : parameters[1];
 
             var nvCollection = new NameValueCollection();
 

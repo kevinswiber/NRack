@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NRack.Adapters
 {
-    public class Headers : Dictionary<string, dynamic>
+    public class Hash : Dictionary<string, dynamic>
     {
         public void Each(Action<dynamic> action)
         {

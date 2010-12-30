@@ -120,7 +120,7 @@ namespace NRack
 
             return new dynamic[]
                        {
-                           404, new Headers {{"Content-Type", "text/plain"}, {"X-Cascade", "pass"}},
+                           404, new Hash {{"Content-Type", "text/plain"}, {"X-Cascade", "pass"}},
                            new[] {"Not Found: " + pathInfo}
                        };
             }
