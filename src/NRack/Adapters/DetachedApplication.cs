@@ -7,7 +7,7 @@ namespace NRack.Adapters
     {
         public static dynamic Create(Func<IDictionary<string, dynamic>, dynamic[]> app)
         {
-            return new IterableApplicationAdapter(new Proc(app));
+            return new IterableResponseAdapter(new Proc(app));
         }
     }
 }

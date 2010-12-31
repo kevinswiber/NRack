@@ -2,11 +2,11 @@
 
 namespace NRack.Adapters
 {
-    public class IterableApplicationAdapter : IApplication
+    public class IterableResponseAdapter : IApplication
     {
         private readonly dynamic _innerObject;
 
-        public IterableApplicationAdapter(dynamic innerObject)
+        public IterableResponseAdapter(dynamic innerObject)
         {
             _innerObject = innerObject;
         }

@@ -11,13 +11,13 @@ namespace NRack.Adapters
 
         public IterableAdapter(dynamic subject)
         {
-            subject = EnsureEnumerable(subject);
+            subject = EnsureIterable(subject);
             _eachAction = action => subject.Each(action);
         }
 
         public IterableAdapter(dynamic subject, Action<dynamic> eachAction)
         {
-            subject = EnsureEnumerable(subject);
+            subject = EnsureIterable(subject);
             _eachAction = action => eachAction(subject);
         }
         
@@ -26,8 +26,14 @@ namespace NRack.Adapters
             _eachAction(action);
         }
 
-        private dynamic EnsureEnumerable(dynamic subject)
+        private dynamic EnsureIterable(dynamic subject)
         {
+            if (subject is IIterable)
+            {
+                Subject = subject;
+                return subject;
+            }
+
             if (subject is string)
             {
                 subject = new string[] {subject};
