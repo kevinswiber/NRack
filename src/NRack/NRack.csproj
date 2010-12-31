@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Kayak">
+      <HintPath>..\..\lib\kayak\Kayak.dll</HintPath>
+    </Reference>
+    <Reference Include="owin">
+      <HintPath>..\..\lib\kayak\owin.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -51,6 +57,7 @@
     <Compile Include="ContentType.cs" />
     <Compile Include="Adapters\Hash.cs" />
     <Compile Include="Adapters\IterableResponseAdapter.cs" />
+    <Compile Include="Hosting\Kayak\KayakHandler.cs" />
     <Compile Include="IApplication.cs" />
     <Compile Include="IIterable.cs" />
     <Compile Include="Configuration\ConfigBase.cs" />
@@ -68,6 +75,7 @@
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
     <Compile Include="Adapters\IterableAdapter.cs" />
     <Compile Include="Iterable.cs" />
+    <Compile Include="Server.cs" />
     <Compile Include="ShowExceptions.cs" />
     <Compile Include="UrlMap.cs" />
     <Compile Include="Utils.cs" />

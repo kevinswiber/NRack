@@ -12,5 +12,14 @@ namespace NRack.Adapters
                 action(new { Key = key, Value = this[key] });
             }
         }
+
+        public Hash Merge(Hash other)
+        {
+            var mergedHash = new Hash();
+            Each(pair => mergedHash[pair.Key] = pair.Value);
+            other.Each(pair => mergedHash[pair.Key] = pair.Value);
+
+            return mergedHash;
+        }
     }
 }
