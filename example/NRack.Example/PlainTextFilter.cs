@@ -4,7 +4,7 @@ using NRack.Adapters;
 
 namespace NRack.Example
 {
-    public class PlainTextFilter : IApplication, IResponseBody
+    public class PlainTextFilter : IApplication, IIterable
     {
         private readonly dynamic _application;
         private dynamic _response;
@@ -22,7 +22,7 @@ namespace NRack.Example
             return new[] { response[0], new Hash {{"Content-Type", "text/plain"}}, this };
         }
 
-        public void Each(Action<object> action)
+        public void Each(Action<dynamic> action)
         {
             _response.Each(action);
         }

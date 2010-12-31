@@ -39,21 +39,21 @@ namespace NRack
 
         public Builder Use(Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(new Proc(application)));
+            _appList.Add(new IterableApplicationAdapter(new Proc(application)));
 
             return this;
         }
 
         public Builder Run(dynamic application)
         {
-            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(application));
+            _appList.Add(new IterableApplicationAdapter(application));
 
             return this;
         }
 
         public Builder Run(Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(new Proc(application)));
+            _appList.Add(new IterableApplicationAdapter(new Proc(application)));
 
             return this;
         }
@@ -74,7 +74,7 @@ namespace NRack
 
         public Builder Map(string url, Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new MiddlewareWithEnumerableBodyAdapter(application));
+            _appList.Add(new IterableApplicationAdapter(application));
 
             return this;
         }
@@ -90,7 +90,7 @@ namespace NRack
 
             if (appList.Last() is Dictionary<string, dynamic>)
             {
-                appList[appList.Length - 1] = new MiddlewareWithEnumerableBodyAdapter(new UrlMap(appList.Last()));
+                appList[appList.Length - 1] = new IterableApplicationAdapter(new UrlMap(appList.Last()));
             }
 
             var innerApp = appList.Last();
@@ -139,7 +139,7 @@ namespace NRack
                 rackApp = Activator.CreateInstance(rackApplicationType);
             }
 
-            return new MiddlewareWithEnumerableBodyAdapter(rackApp);
+            return new IterableApplicationAdapter(rackApp);
         }
     }
 }

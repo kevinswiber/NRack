@@ -13,7 +13,7 @@ namespace NRack.Specs
         {
             dynamic res = null;
 
-            var req = new MockRequest(new ShowExceptions(ApplicationFactory.Create(
+            var req = new MockRequest(new ShowExceptions(DetachedApplication.Create(
                 env => { throw new InvalidOperationException(); })));
 
             Assert.DoesNotThrow(delegate { res = req.Get("/"); });

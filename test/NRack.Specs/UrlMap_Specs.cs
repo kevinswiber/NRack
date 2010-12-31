@@ -12,7 +12,7 @@ namespace NRack.Specs
         [Test]
         public void Should_Dispatch_Paths_Correctly()
         {
-            var app = ApplicationFactory.Create
+            var app = DetachedApplication.Create
                 (env =>
                     new dynamic[] {200, 
                         new Hash
@@ -132,7 +132,7 @@ namespace NRack.Specs
                     {"/bar", 
                         new UrlMap(new Dictionary<string, object>{
                             {"/quux",
-                    ApplicationFactory.Create(env =>
+                    DetachedApplication.Create(env =>
                         new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},
@@ -213,7 +213,7 @@ namespace NRack.Specs
         private static KeyValuePair<string, object> GetMapForDispatchTest(string uri, string xPosition)
         {
             return new KeyValuePair<string, object>(uri,
-                    ApplicationFactory.Create(env =>
+                    DetachedApplication.Create(env =>
                         new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},
@@ -227,7 +227,7 @@ namespace NRack.Specs
         private static KeyValuePair<string, object> GetMapForRootRouteTest(string uri, string xPosition)
         {
             return new KeyValuePair<string, object>(uri,
-                    ApplicationFactory.Create(env =>
+                    DetachedApplication.Create(env =>
                         new dynamic[] {200, new Hash
                                                 {
                                                     {"Content-Type", "text/plain"},

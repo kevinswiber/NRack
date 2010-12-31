@@ -4,11 +4,11 @@ using System.Text;
 using NRack.Adapters;
 using NRack.Auth;
 using NRack.Mock;
-using NUnit.Core;
 using NUnit.Framework;
 
 namespace NRack.Specs
 {
+    [TestFixture]
     public class BasicAuth_Specs
     {
         private MockRequest _request;
@@ -20,7 +20,7 @@ namespace NRack.Specs
             get
             {
                 return
-                    ApplicationFactory.Create(
+                    DetachedApplication.Create(
                         env =>
                         new[] {200, new Hash {{"Content-Type", "text/plain"}}, "Hi " + env["REMOTE_USER"]});
             }

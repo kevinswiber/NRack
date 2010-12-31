@@ -5,7 +5,7 @@ using NRack.Adapters;
 
 namespace NRack.Example
 {
-    public class EnvironmentOutput : IApplication, IResponseBody
+    public class EnvironmentOutput : IApplication, IIterable
     {
         private readonly dynamic _application;
         private dynamic _response;
@@ -34,7 +34,7 @@ namespace NRack.Example
             return new dynamic[] {200, new Hash{{"Content-Type", "text/html"}}, this};
         }
 
-        public void Each(Action<object> action)
+        public void Each(Action<dynamic> action)
         {
             if (_response != null)
             {

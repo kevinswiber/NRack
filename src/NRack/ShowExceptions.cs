@@ -33,10 +33,10 @@ namespace NRack
 
         #endregion
 
-        public IResponseBody Pretty(IDictionary<string, dynamic> environment, Exception exception)
+        public IIterable Pretty(IDictionary<string, dynamic> environment, Exception exception)
         {
             //TODO: Actually make ShowExceptions pretty.
-            return new EnumerableBodyAdapter(exception.ToString());
+            return new IterableAdapter(exception.ToString());
         }
     }
 }

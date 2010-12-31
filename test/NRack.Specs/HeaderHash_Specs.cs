@@ -3,6 +3,7 @@ using NUnit.Framework;
 
 namespace NRack.Specs
 {
+    [TestFixture]
     public class HeaderHash_Specs
     {
         [Test]

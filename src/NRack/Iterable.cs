@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace NRack
 {
-    public class ResponseBody : Collection<object>
+    public class Iterable : Collection<dynamic>, IIterable
     {
-        public void Each(Action<object> action)
+        public void Each(Action<dynamic> action)
         {
             foreach (var item in this)
             {

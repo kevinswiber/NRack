@@ -74,7 +74,7 @@ namespace NRack.Hosting.AspNet
             }
             else
             {
-                response.Body.Each((Action<object>)(body => context.Response.Write(body)));
+                response.Body.Each((Action<dynamic>)(body => context.Response.Write(body)));
             }
 
             var methodInfos = (IEnumerable<MethodInfo>)response.Body.GetType().GetMethods();

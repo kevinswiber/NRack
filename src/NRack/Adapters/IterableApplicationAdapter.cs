@@ -2,11 +2,11 @@
 
 namespace NRack.Adapters
 {
-    public class MiddlewareWithEnumerableBodyAdapter : IApplication
+    public class IterableApplicationAdapter : IApplication
     {
         private readonly dynamic _innerObject;
 
-        public MiddlewareWithEnumerableBodyAdapter(dynamic innerObject)
+        public IterableApplicationAdapter(dynamic innerObject)
         {
             _innerObject = innerObject;
         }
@@ -15,7 +15,7 @@ namespace NRack.Adapters
         {
             var response = _innerObject.Call(environment);
 
-            response[2] = new EnumerableBodyAdapter(response[2]);
+            response[2] = new IterableAdapter(response[2]);
 
             return response;
         }

@@ -42,16 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\ApplicationFactory.cs" />
+    <Compile Include="Adapters\DetachedApplication.cs" />
     <Compile Include="Adapters\HeaderHash.cs" />
     <Compile Include="Auth\Abstract\AuthHandlerBase.cs" />
     <Compile Include="Auth\Abstract\AuthRequestBase.cs" />
     <Compile Include="Auth\BasicAuthHandler.cs" />
+    <Compile Include="ContentLength.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="Adapters\Hash.cs" />
-    <Compile Include="Adapters\MiddlewareWithEnumerableBodyAdapter.cs" />
+    <Compile Include="Adapters\IterableApplicationAdapter.cs" />
     <Compile Include="IApplication.cs" />
-    <Compile Include="IResponseBody.cs" />
+    <Compile Include="IIterable.cs" />
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />
     <Compile Include="Mock\MockRequest.cs">
@@ -65,8 +66,8 @@
     <Compile Include="RackVersion.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
-    <Compile Include="Adapters\EnumerableBodyAdapter.cs" />
-    <Compile Include="ResponseBody.cs" />
+    <Compile Include="Adapters\IterableAdapter.cs" />
+    <Compile Include="Iterable.cs" />
     <Compile Include="ShowExceptions.cs" />
     <Compile Include="UrlMap.cs" />
     <Compile Include="Utils.cs" />
