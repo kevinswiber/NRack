@@ -54,11 +54,10 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-  	<StartAction>Program</StartAction>
-  	<StartProgram>$(TargetDir)NRack.Example.Server.exe</StartProgram>
-  	<StartArguments />
+    <StartAction>Program</StartAction>
+    <StartProgram>$(TargetDir)NRack.Example.Server.exe</StartProgram>
+    <StartArguments />
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
