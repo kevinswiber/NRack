@@ -1,10 +1,9 @@
 using System;
-using System.Web;
 using NRack.Adapters;
 using NRack.Auth;
 using NRack.Configuration;
 
-namespace NRack.Example
+namespace NRack.Example.AspNet
 {
     public class Config : ConfigBase
     {
@@ -22,7 +21,7 @@ namespace NRack.Example
                                        "<h1>Hello, World!</h1>"}))
                 .Map("/app", rack =>
                              rack.Map("/scripts", scripts =>
-                                 scripts.Run(new YuiCompressor(null, HttpContext.Current.Request.MapPath("~/Scripts/"))))
+                                 scripts.Run(new YuiCompressor(AppDomain.CurrentDomain.BaseDirectory + "Scripts\\")))
                              .Map("/", appRoot => appRoot.Run(new MyApp())))
                 .Map("/env", rack =>
                              rack.Run(new EnvironmentOutput()));

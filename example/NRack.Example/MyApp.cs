@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NRack.Adapters;
 
-namespace NRack.Example
+namespace NRack.Example.AspNet
 {
     public class MyApp : IApplication
     {

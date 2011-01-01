@@ -3,7 +3,7 @@ using System.IO;
 using NRack.Adapters;
 using Yahoo.Yui.Compressor;
 
-namespace NRack.Example
+namespace NRack.Example.AspNet
 {
     public class YuiCompressor
     {
@@ -15,6 +15,9 @@ namespace NRack.Example
             _app = app;
             _root = root;
         }
+
+        public YuiCompressor(string root) : this(null, root)
+        {}
 
         public dynamic[] Call(IDictionary<string, dynamic> env)
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NRack.Adapters;
 
-namespace NRack.Example
+namespace NRack.Example.AspNet
 {
     public class EnvironmentOutput : IApplication, IIterable
     {
