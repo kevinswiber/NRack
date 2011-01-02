@@ -44,19 +44,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\NRackup\NRackup.csproj">
+      <Project>{6661D675-614C-4DAC-978D-6C5B81221B51}</Project>
+      <Name>NRackup</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\NRack\NRack.csproj">
       <Project>{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}</Project>
       <Name>NRack</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NRack.Example.Server\NRack.Example.Server.csproj">
-      <Project>{6661D675-614C-4DAC-978D-6C5B81221B51}</Project>
-      <Name>NRack.Example.Server</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <StartAction>Program</StartAction>
-    <StartProgram>$(TargetDir)NRack.Example.Server.exe</StartProgram>
+    <StartProgram>$(TargetDir)NRackup.exe</StartProgram>
     <StartArguments />
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

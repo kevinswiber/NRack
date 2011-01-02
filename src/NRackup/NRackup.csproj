@@ -8,8 +8,8 @@
     <ProjectGuid>{6661D675-614C-4DAC-978D-6C5B81221B51}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NRack.Example.Server</RootNamespace>
-    <AssemblyName>NRack.Example.Server</AssemblyName>
+    <RootNamespace>NRackup</RootNamespace>
+    <AssemblyName>NRackup</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

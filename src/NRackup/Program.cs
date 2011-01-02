@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using NRack.Adapters;
-
-namespace NRack.Example.Server
+﻿namespace NRackup
 {
     class Program
     {

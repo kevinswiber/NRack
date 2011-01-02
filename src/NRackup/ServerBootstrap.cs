@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NRack;
 using NRack.Adapters;
 using NRack.Configuration;
 
-namespace NRack.Example.Server
+namespace NRackup
 {
     public static class ServerBootstrap
     {
