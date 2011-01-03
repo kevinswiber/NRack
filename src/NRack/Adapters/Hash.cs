@@ -5,6 +5,12 @@ namespace NRack.Adapters
 {
     public class Hash : Dictionary<string, dynamic>
     {
+        public Hash() {}
+
+        public Hash(IDictionary<string, dynamic> dictionary) : base(dictionary)
+        {
+        }
+
         public void Each(Action<dynamic> action)
         {
             foreach (var key in Keys)

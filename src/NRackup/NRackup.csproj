@@ -42,13 +42,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Topshelf">
+      <HintPath>..\..\lib\topshelf\Topshelf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigFactory.cs" />
-    <Compile Include="ConfigFinder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\NRack\NRack.csproj">

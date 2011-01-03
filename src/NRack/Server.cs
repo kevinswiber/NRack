@@ -1,36 +1,70 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using NRack.Adapters;
 using NRack.Hosting.Kayak;
+using NRack.ServerHelpers;
 
 namespace NRack
 {
     public class Server
     {
-        private Hash _options;
-        private dynamic _app;
+        private readonly Hash _options;
 
         public Server() : this(null)
         {}
 
         public Server(Hash options)
         {
-            if (options != null && options.ContainsKey(ServerOptions.App) 
-                && options[ServerOptions.App] != null)
-            {
-                _app = options[ServerOptions.App];
-            }
+            _options = options;
+            
+            MergeWithDefaultOptions(_options);
+            SetDefaults(_options);
+        }
 
-            _options = DefaultOptions.Merge(options ?? new Hash());
+        private void SetDefaults(Hash options)
+        {
+            if (options != null && options.ContainsKey(ServerOptionKeys.App) 
+                && options[ServerOptionKeys.App] != null)
+            {
+                App = options[ServerOptionKeys.App];
+            }
+            else if (options != null && options.ContainsKey(ServerOptionKeys.Config) &&
+                     options[ServerOptionKeys.Config] != null)
+            {
+                var config = ConfigFactory.NewInstance((Type) options[ServerOptionKeys.Config]);
+                Func<IDictionary<string, object>, object> builderInContextFunc =
+                    env => new Builder(config.ExecuteRackUp).Call(env);
+
+                App = new Proc(builderInContextFunc);
+            }
+        }
+
+        private void MergeWithDefaultOptions(Hash options)
+        {
+            foreach (var key in DefaultOptions.Keys.Where(key => !options.ContainsKey(key) || options[key] == null))
+            {
+                options[key] = DefaultOptions[key];
+            }
         }
 
         public static void Start(Hash options = null)
         {
-            new Server(options).InnerStart();
+            new Server(options).StartInstance();
         }
 
-        public void InnerStart()
+        public static void Start(string[] args)
         {
-            GetServer().Run(_app, _options);
+            var commandLineOptions = new ServerOptions();
+
+            var options = ServerOptionsBuilder.BuildFromArgs(args, commandLineOptions);
+
+            Start(options ?? new Hash());
+        }
+
+        public void StartInstance()
+        {
+            GetServer().Run(App, _options);
         }
 
         public Hash DefaultOptions
@@ -39,41 +73,30 @@ namespace NRack
             {
                 return new Hash
                            {
-                               {ServerOptions.Environment, "development"},
-                               {ServerOptions.Pid, null},
-                               {ServerOptions.Port, 9292},
-                               {ServerOptions.Host, "127.0.0.1"},
-                               {ServerOptions.AccessLog, new List<dynamic>()},
-                               {ServerOptions.Config, "Config"}
+                               {ServerOptionKeys.Environment, "development"},
+                               {ServerOptionKeys.Port, 9292},
+                               {ServerOptionKeys.Host, "127.0.0.1"},
+                               {ServerOptionKeys.AccessLog, new List<dynamic>()},
+                               {ServerOptionKeys.Config, ConfigFinder.FindType()}
                            };
             }
         }
 
+        public dynamic App { get; private set; }
+
         public dynamic GetServer()
         {
-            if (_options.ContainsKey(ServerOptions.Server) && _options[ServerOptions.Server] != null)
+            Type serverType;
+            if (_options.ContainsKey(ServerOptionKeys.Server) && _options[ServerOptionKeys.Server] != null)
             {
-                return _options[ServerOptions.Server];
+                serverType = HandlerRegistry.Get(_options[ServerOptionKeys.Server]);
+            }
+            else
+            {
+                serverType = HandlerRegistry.Default();   
             }
 
-            return new KayakHandler();
+            return Activator.CreateInstance(serverType);
         }
-    }
-
-    public static class ServerOptions
-    {
-        public const string App = "app";
-        public const string Config = "config";
-        public const string Environment = "environment";
-        public const string Server = "server";
-        public const string Daemonize = "daemonize";
-        public const string Pid = "pid";
-        public const string Host = "Host";
-        public const string Port = "Port";
-        public const string AccessLog = "AccessLog";
-        public const string Debug = "debug";
-        public const string Warn = "warn";
-        public const string Include = "include";
-        public const string Require = "require";
     }
 }

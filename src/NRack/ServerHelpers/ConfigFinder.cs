@@ -5,11 +5,11 @@ using System.Linq;
 using System.Reflection;
 using NRack.Configuration;
 
-namespace NRackup
+namespace NRack.ServerHelpers
 {
     public class ConfigFinder
     {
-        public Type FindType()
+        public static Type FindType()
         {
             var assemblyFiles =
                 new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)
@@ -37,9 +37,12 @@ namespace NRackup
 
             var rackConfigTypes = typesCollected.Where(type => TypeIsPublicClass(type) && TypeIsRackConfig(type));
 
-            Type rackConfig = rackConfigTypes.First();
+            if (rackConfigTypes.Any())
+            {
+                return rackConfigTypes.First();
+            }
 
-            return rackConfig;
+            return null;
         }
 
         private static bool TypeIsPublicClass(Type type)

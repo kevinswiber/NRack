@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using NRack.Adapters;
 using Kayak;
+using NRack.Adapters;
+using NRack.ServerHelpers;
 using Owin;
 
 namespace NRack.Hosting.Kayak
@@ -14,8 +14,8 @@ namespace NRack.Hosting.Kayak
         public void Run(dynamic app, Hash options)
         {
             var server =
-                new KayakServer(new IPEndPoint((Dns.Resolve(options[ServerOptions.Host].ToString())).AddressList[0],
-                                               options[ServerOptions.Port]));
+                new KayakServer(new IPEndPoint((Dns.Resolve(options[ServerOptionKeys.Host].ToString())).AddressList[0],
+                                               options[ServerOptionKeys.Port]));
 
             var pipe = server.Invoke(new OwinApplicationAdapter(app));
 

@@ -1,10 +1,12 @@
-﻿namespace NRackup
+﻿using NRack;
+
+namespace NRackup
 {
     class Program
     {
         static void Main(string[] args)
         {
-            ServerBootstrap.Start();
+            Server.Start(args);
         }
     }
 }
