@@ -34,6 +34,9 @@
     <Reference Include="CommandLine">
       <HintPath>..\..\lib\libcmdline\CommandLine.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\lib\sharpziplib\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Kayak">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\kayak\Kayak.dll</HintPath>
@@ -69,6 +72,7 @@
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />
     <Compile Include="Mime.cs" />
+    <Compile Include="Lobster.cs" />
     <Compile Include="Mock\MockRequest.cs">
       <SubType>Code</SubType>
     </Compile>
