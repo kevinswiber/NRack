@@ -13,9 +13,11 @@ namespace NRack.Hosting.Kayak
     {
         public void Run(dynamic app, Hash options)
         {
+            var host = options[ServerOptionKeys.Host].ToString();
+            var port = Convert.ToInt32(options[ServerOptionKeys.Port]);
+
             var server =
-                new KayakServer(new IPEndPoint((Dns.Resolve(options[ServerOptionKeys.Host].ToString())).AddressList[0],
-                                               options[ServerOptionKeys.Port]));
+                new KayakServer(new IPEndPoint((Dns.Resolve(host)).AddressList[0], port));
 
             var pipe = server.Invoke(new OwinApplicationAdapter(app));
 
