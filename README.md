@@ -34,10 +34,10 @@ Here's a more complex configuration:
 	public override void Start()
 	{
 			Use<BasicAuthHandler>("Lobster",
-					(Func<string, string, bool>)((username, password) => password == "secret"))
+					(Func<string, string, bool>)((username, password) => password == "p4ssw0rd!"))
 			.Map("/app",
 					rack =>
-							rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+							rack.Use<YuiCompressor>(AppDomain.CurrentDomain.BaseDirectory + "Scripts\\")
 									.Run(new MyApp()))
 			.Map("/env", rack => rack.Run(new EnvironmentOutput()));
 	}
