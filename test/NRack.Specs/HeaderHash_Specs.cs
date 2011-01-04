@@ -130,7 +130,7 @@ namespace NRack.Specs
             headers.Each((key, value) =>
                              {
                                  Assert.AreEqual("foo", key);
-                                 Assert.AreEqual("bar\nbaz", value);
+                                 Assert.AreEqual("bar\r\n\tbaz", value);
                              });
         }
     }

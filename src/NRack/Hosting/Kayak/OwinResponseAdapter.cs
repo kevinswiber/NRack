@@ -21,7 +21,18 @@ namespace NRack.Hosting.Kayak
 
         public string Status
         {
-            get { return _response[0].ToString(); }
+            get
+            {
+                var statusCode = _response[0];
+                var status = statusCode;
+
+                if (statusCode is int && Utils.HttpStatusCodes.ContainsKey(statusCode))
+                {
+                    status += " " + Utils.HttpStatusCodes[statusCode];
+                }
+
+                return status;
+            }
         }
 
         public IDictionary<string, IList<string>> Headers

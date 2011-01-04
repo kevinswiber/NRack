@@ -119,7 +119,7 @@ namespace NRack.Adapters
                 value = value.ToArray();
             }
 
-            value = string.Join("\n", value);
+            value = string.Join("\r\n\t", value);
 
             return value;
         }
