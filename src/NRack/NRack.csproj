@@ -35,10 +35,6 @@
       <HintPath>..\..\lib\libcmdline\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="Kayak">
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\lib\sharpziplib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Kayak, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\kayak\Kayak.dll</HintPath>
     </Reference>
