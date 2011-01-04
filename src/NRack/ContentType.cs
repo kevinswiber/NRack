@@ -4,7 +4,7 @@ using NRack.Adapters;
 
 namespace NRack
 {
-    public class ContentType : IApplication
+    public class ContentType : ICallable
     {
         private readonly dynamic _app;
         private readonly string _contentType;
@@ -15,7 +15,7 @@ namespace NRack
             _contentType = contentType;
         }
 
-        #region Implementation of IApplication
+        #region Implementation of ICallable
 
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {

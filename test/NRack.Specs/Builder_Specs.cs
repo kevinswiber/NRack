@@ -103,7 +103,7 @@ namespace NRack.Specs
             Assert.AreEqual(500, new MockRequest(app).Get("/").Status);
         }
 
-        public class AppClass : IApplication
+        public class AppClass : ICallable
         {
             private int _called;
 
@@ -112,7 +112,7 @@ namespace NRack.Specs
                 _called = 0;
             }
 
-            #region Implementation of IApplication
+            #region Implementation of ICallable
 
             public dynamic[] Call(IDictionary<string, object> environment)
             {
@@ -130,7 +130,7 @@ namespace NRack.Specs
         }
     }
 
-    public class NothingMiddleware : IApplication
+    public class NothingMiddleware : ICallable
     {
         private readonly dynamic _app;
 
@@ -139,7 +139,7 @@ namespace NRack.Specs
             _app = app;
         }
 
-        #region Implementation of IApplication
+        #region Implementation of ICallable
 
         public dynamic[] Call(IDictionary<string, object> environment)
         {

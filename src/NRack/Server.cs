@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NRack.Adapters;
-using NRack.Hosting.Kayak;
 using NRack.ServerHelpers;
 
 namespace NRack
@@ -34,7 +33,7 @@ namespace NRack
             {
                 var config = ConfigFactory.NewInstance((Type) options[ServerOptionKeys.Config]);
                 Func<IDictionary<string, object>, object> builderInContextFunc =
-                    env => new Builder(config.ExecuteRackUp).Call(env);
+                    env => new Builder(config.ExecuteStart).Call(env);
 
                 App = new Proc(builderInContextFunc);
             }

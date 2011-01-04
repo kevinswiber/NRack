@@ -7,7 +7,7 @@ using NRack.Adapters;
 
 namespace NRack
 {
-    public class ContentLength : IApplication
+    public class ContentLength : ICallable
     {
         public int[] StatusWithNoEntityBody =
             Enumerable.Range(100, 99).ToArray().Concat(new[]  {204, 304}).ToArray();
@@ -19,7 +19,7 @@ namespace NRack
             _app = app;
         }
 
-        #region Implementation of IApplication
+        #region Implementation of ICallable
 
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {

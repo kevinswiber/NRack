@@ -61,7 +61,7 @@
     <Compile Include="HandlerRegistry.cs" />
     <Compile Include="Hosting\Kayak\KayakHandler.cs" />
     <Compile Include="Hosting\Kayak\OwinResponseAdapter.cs" />
-    <Compile Include="IApplication.cs" />
+    <Compile Include="ICallable.cs" />
     <Compile Include="IIterable.cs" />
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />

@@ -10,7 +10,7 @@ namespace NRack.Example.AspNet
         /// <summary>
         /// Slightly complex example.
         /// </summary>
-        public override void RackUp()
+        public override void Start()
         {
             Use<BasicAuthHandler>("Rack Lobster!",
                                   (Func<string, string, bool>)
@@ -28,9 +28,9 @@ namespace NRack.Example.AspNet
         }
 
         ///// <summary>
-        ///// A simple RackUp example.
+        ///// A simple config example.
         ///// </summary>
-        //public override void RackUp()
+        //public override void Start()
         //{
         //    Run(environment =>
         //            new dynamic[] { 200, new Hash {{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>" });

@@ -6,7 +6,7 @@ using NRack.Auth.Abstract;
 
 namespace NRack.Auth
 {
-    public class BasicAuthHandler : AuthHandlerBase, IApplication
+    public class BasicAuthHandler : AuthHandlerBase, ICallable
     {
         public BasicAuthHandler(dynamic app, string realm, Func<string, string, bool> authenticator) 
             : base((object)app, realm, authenticator)
@@ -18,7 +18,7 @@ namespace NRack.Auth
         {
         }
 
-        #region Implementation of IApplication
+        #region Implementation of ICallable
 
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {

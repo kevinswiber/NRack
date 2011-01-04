@@ -21,7 +21,7 @@ namespace NRack.Hosting.AspNet
             if (Config == null)
             {
                 Config = GetRackConfigInstance();
-                GetBuilderInContext = () => new Builder(Config.ExecuteRackUp);
+                GetBuilderInContext = () => new Builder(Config.ExecuteStart);
             }
 
             var rawEnvironment = context.Request.Params;

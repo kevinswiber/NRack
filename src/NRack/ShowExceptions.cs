@@ -4,14 +4,14 @@ using NRack.Adapters;
 
 namespace NRack
 {
-    public class ShowExceptions : IApplication
+    public class ShowExceptions : ICallable
     {
         private readonly dynamic _app;
         public ShowExceptions(dynamic app)
         {
             _app = app;
         }
-        #region Implementation of IApplication
+        #region Implementation of ICallable
 
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {

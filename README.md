@@ -6,7 +6,7 @@ NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .N
 -------------------
 Here is a small example of an NRack application.
 
-	public class MyApp : IApplication
+	public class MyApp : ICallable
 	{
 			public dynamic[] Call(IDictionary<string, dynamic> environment)
 			{
@@ -18,6 +18,31 @@ Check out NRack.Example and NRack.Tests for more info.
 
 Setup
 -----
+
+In the root of your Web Application, create a RackConfig file that inherits from NRack.Configuration.ConfigBase:
+
+	public class Config : ConfigBase
+	{
+			public override void Start()
+			{
+					Run(environment =>
+									new dynamic[] { 200, new Hash {{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>" });
+			}
+	}
+
+Here's a more complex configuration:
+	public override void Start()
+	{
+			Use<BasicAuthHandler>("Lobster",
+					(Func<string, string, bool>)((username, password) => password == "secret"))
+			.Map("/app",
+					rack =>
+							rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
+									.Run(new MyApp()))
+			.Map("/env", rack => rack.Run(new EnvironmentOutput()));
+	}
+
+
 Add the following to your Web.config:
 
 	<configuration>
@@ -34,28 +59,3 @@ Add the following to your Web.config:
 			</handlers>
 		</system.webServer>
 	</configuration>
-
-
-In the root of your Web Application, create a RackConfig file that inherits from NRack.Configuration.ConfigBase:
-
-	public class Config : ConfigBase
-	{
-			public override void RackUp()
-			{
-					Run(environment =>
-									new dynamic[] { 200, new Hash {{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>" });
-			}
-	}
-
-Here's a more complex RackUp call:
-	public override void RackUp()
-	{
-			Use<BasicAuthHandler>("Lobster",
-					(Func<string, string, bool>)((username, password) => password == "secret"))
-			.Map("/app",
-					rack =>
-							rack.Use<YuiCompressor>(HttpContext.Current.Request.MapPath("~/"))
-									.Run(new MyApp()))
-			.Map("/env", rack => rack.Run(new EnvironmentOutput()));
-	}
-

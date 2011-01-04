@@ -3,7 +3,7 @@ using NRack.Adapters;
 
 namespace NRack.Example.AspNet
 {
-    public class MyApp : IApplication
+    public class MyApp : ICallable
     {
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {

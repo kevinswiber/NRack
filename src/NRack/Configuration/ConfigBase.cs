@@ -7,12 +7,12 @@ namespace NRack.Configuration
     {
         private Builder _builder;
 
-        public abstract void RackUp();
+        public abstract void Start();
 
-        public void ExecuteRackUp(Builder builder)
+        public void ExecuteStart(Builder builder)
         {
             _builder = builder;
-            RackUp();
+            Start();
         }
 
         public Builder Use<T>(params dynamic[] parameters)

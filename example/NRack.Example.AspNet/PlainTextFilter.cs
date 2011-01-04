@@ -4,7 +4,7 @@ using NRack.Adapters;
 
 namespace NRack.Example.AspNet
 {
-    public class PlainTextFilter : IApplication, IIterable
+    public class PlainTextFilter : ICallable, IIterable
     {
         private readonly dynamic _application;
         private dynamic _response;

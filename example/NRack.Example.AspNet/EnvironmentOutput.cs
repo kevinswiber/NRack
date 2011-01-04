@@ -5,7 +5,7 @@ using NRack.Adapters;
 
 namespace NRack.Example.AspNet
 {
-    public class EnvironmentOutput : IApplication, IIterable
+    public class EnvironmentOutput : ICallable, IIterable
     {
         private readonly dynamic _application;
         private dynamic _response;
