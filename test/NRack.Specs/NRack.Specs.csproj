@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HandlerRegistry_Specs.cs" />
-    <Compile Include="Lobster_Specs.cs" />
     <Compile Include="ServerOptionsBuilder_Specs.cs" />
     <Compile Include="BasicAuth_Specs.cs" />
     <Compile Include="Builder_Specs.cs" />
