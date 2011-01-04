@@ -14,10 +14,10 @@ namespace NRack
     t1drVmiR42HcWNz5w3QanT+2gIvTVCiE1lm1Y0eU4JGmIIbaKwextKn8rvW+p5PIwFl8ZWJ
     I8jyiTlhTcYXkekJAzTyYN6E08A+dk8voBkAVTJQ==";
 
-        private string _lobsterString;
-        private dynamic _lambdaLobster;
-
-        public Lobster()
+        public static string LobsterString = GetLobsterString();
+        public static dynamic LambdaLobster = GetLambdaLobster();
+        
+        private static string GetLobsterString()
         {
             var lobster64 = EncodedLobster.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty);
             var lobsterBytes = Convert.FromBase64String(lobster64);
@@ -34,32 +34,37 @@ namespace NRack
             }
 
             inflater.Close();
-            _lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
+            var _lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
             lobsterOut.Close();
 
-            _lambdaLobster = DetachedApplication.Create(env =>
-                                                            {
-                                                                var lobster = string.Empty;
-                                                                var href = string.Empty;
+            return _lobsterString;
+        }
 
-                                                                if (env.ContainsKey("QUERY_STRING") &&
-                                                                    env["QUERY_STRING"].ToString().Contains("flip"))
-                                                                {
-                                                                    // reverse lobster
-                                                                    href = "?";
-                                                                }
-                                                                else
-                                                                {
-                                                                    lobster = _lobsterString;
-                                                                    href = "?flip";
-                                                                }
+        private static object GetLambdaLobster()
+        {
+            return DetachedApplication.Create(env =>
+            {
+                var lobster = string.Empty;
+                var href = string.Empty;
 
-                                                                var content = "<title>Lobstericious!</title><pre>" +
-                                                                              lobster + "</pre><a href=\"" + href +
-                                                                              "\">flip!</a>";
+                if (env.ContainsKey("QUERY_STRING") &&
+                    env["QUERY_STRING"].ToString().Contains("flip"))
+                {
+                    // reverse lobster
+                    href = "?";
+                }
+                else
+                {
+                    lobster = LobsterString;
+                    href = "?flip";
+                }
 
-                                                                return null;
-                                                            });
+                var content = "<title>Lobstericious!</title><pre>" +
+                              lobster + "</pre><a href=\"" + href +
+                              "\">flip!</a>";
+
+                return null;
+            });
         }
 
         #region Implementation of IApplication
