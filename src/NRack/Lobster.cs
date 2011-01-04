@@ -19,7 +19,7 @@ namespace NRack
 
         public Lobster()
         {
-            var lobster64 = EncodedLobster.Replace(" ", string.Empty).Replace("\n", string.Empty);
+            var lobster64 = EncodedLobster.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty);
             var lobsterBytes = Convert.FromBase64String(lobster64);
             var lobsterStream = new MemoryStream(lobsterBytes);
             var inflater = new InflaterInputStream(lobsterStream);
@@ -39,8 +39,8 @@ namespace NRack
 
             _lambdaLobster = DetachedApplication.Create(env =>
                                                             {
-                                                                string lobster = string.Empty;
-                                                                string href = string.Empty;
+                                                                var lobster = string.Empty;
+                                                                var href = string.Empty;
 
                                                                 if (env.ContainsKey("QUERY_STRING") &&
                                                                     env["QUERY_STRING"].ToString().Contains("flip"))
