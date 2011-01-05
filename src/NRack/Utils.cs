@@ -6,22 +6,22 @@ namespace NRack
 {
     public class Utils
     {
-        public string Escape(string uri)
+        public static string Escape(string uri)
         {
             return HttpUtility.UrlEncode(uri);
         }
 
-        public string Unescape(string uri)
+        public static string Unescape(string uri)
         {
             return HttpUtility.UrlDecode(uri);
         }
 
-        public NameValueCollection ParseQuery(string queryString)
+        public static NameValueCollection ParseQuery(string queryString)
         {
             return HttpUtility.ParseQueryString(queryString);
         }
 
-        public NameValueCollection ParseNestedQuery(string queryString)
+        public static NameValueCollection ParseNestedQuery(string queryString)
         {
             return HttpUtility.ParseQueryString(queryString);
         }
