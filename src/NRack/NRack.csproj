@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
     <Compile Include="Helpers\DetachedApplication.cs" />
     <Compile Include="Helpers\HeaderHash.cs" />
     <Compile Include="Auth\Abstract\AuthHandlerBase.cs" />
@@ -57,7 +58,6 @@
     <Compile Include="ContentLength.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="Helpers\Hash.cs" />
-    <Compile Include="Helpers\IterableResponseAdapter.cs" />
     <Compile Include="Extensions\HttpExtensions.cs" />
     <Compile Include="File.cs" />
     <Compile Include="HandlerRegistry.cs" />
