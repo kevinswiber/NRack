@@ -57,7 +57,9 @@
     <Compile Include="ContentLength.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="Helpers\Hash.cs" />
-    <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
+    <Compile Include="Helpers\IterableResponseAdapter.cs" />
+    <Compile Include="Extensions\HttpExtensions.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="HandlerRegistry.cs" />
     <Compile Include="Hosting\Kayak\KayakHandler.cs" />
     <Compile Include="Hosting\Kayak\OwinResponseAdapter.cs" />
@@ -65,6 +67,7 @@
     <Compile Include="IIterable.cs" />
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />
+    <Compile Include="Mime.cs" />
     <Compile Include="Mock\MockRequest.cs">
       <SubType>Code</SubType>
     </Compile>
