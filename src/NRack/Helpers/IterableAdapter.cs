@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace NRack.Adapters
+namespace NRack.Helpers
 {
     public class IterableAdapter : IIterable
     {

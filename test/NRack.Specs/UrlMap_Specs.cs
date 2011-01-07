@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.Mock;
 using NUnit.Framework;
 

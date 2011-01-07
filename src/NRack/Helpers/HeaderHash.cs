@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NRack.Adapters
+namespace NRack.Helpers
 {
     public class HeaderHash : Hash
     {
@@ -119,7 +119,7 @@ namespace NRack.Adapters
                 value = value.ToArray();
             }
 
-            value = string.Join("\r\n\t", value);
+            value = string.Join("\n", value);
 
             return value;
         }

@@ -49,15 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\DetachedApplication.cs" />
-    <Compile Include="Adapters\HeaderHash.cs" />
+    <Compile Include="Helpers\DetachedApplication.cs" />
+    <Compile Include="Helpers\HeaderHash.cs" />
     <Compile Include="Auth\Abstract\AuthHandlerBase.cs" />
     <Compile Include="Auth\Abstract\AuthRequestBase.cs" />
     <Compile Include="Auth\BasicAuthHandler.cs" />
     <Compile Include="ContentLength.cs" />
     <Compile Include="ContentType.cs" />
-    <Compile Include="Adapters\Hash.cs" />
-    <Compile Include="Adapters\IterableResponseAdapter.cs" />
+    <Compile Include="Helpers\Hash.cs" />
+    <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
     <Compile Include="HandlerRegistry.cs" />
     <Compile Include="Hosting\Kayak\KayakHandler.cs" />
     <Compile Include="Hosting\Kayak\OwinResponseAdapter.cs" />
@@ -71,12 +71,12 @@
     <Compile Include="Mock\MockResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Builder.cs" />
-    <Compile Include="Adapters\Proc.cs" />
+    <Compile Include="Helpers\Proc.cs" />
     <Compile Include="Hosting\AspNet\AspNetHandler.cs" />
     <Compile Include="RackVersion.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
-    <Compile Include="Adapters\IterableAdapter.cs" />
+    <Compile Include="Helpers\IterableAdapter.cs" />
     <Compile Include="Iterable.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ServerHelpers\ConfigFactory.cs" />

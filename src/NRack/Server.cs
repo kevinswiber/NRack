@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.ServerHelpers;
 
 namespace NRack

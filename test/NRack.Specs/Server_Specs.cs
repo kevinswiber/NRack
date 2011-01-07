@@ -1,4 +1,4 @@
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.ServerHelpers;
 using NUnit.Framework;
 

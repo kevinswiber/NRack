@@ -1,5 +1,5 @@
 using System;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.Mock;
 using NUnit.Framework;
 

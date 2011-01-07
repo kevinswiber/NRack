@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NRack.Adapters
+namespace NRack.Helpers
 {
     public class Hash : Dictionary<string, dynamic>
     {

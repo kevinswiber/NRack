@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using NRack.Adapters;
+using NRack.Helpers;
 
 namespace NRack
 {
@@ -39,21 +39,21 @@ namespace NRack
 
         public Builder Use(Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new IterableResponseAdapter(new Proc(application)));
+            _appList.Add(new CalledWithIterableResponseAdapter(new Proc(application)));
 
             return this;
         }
 
         public Builder Run(dynamic application)
         {
-            _appList.Add(new IterableResponseAdapter(application));
+            _appList.Add(new CalledWithIterableResponseAdapter(application));
 
             return this;
         }
 
         public Builder Run(Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new IterableResponseAdapter(new Proc(application)));
+            _appList.Add(new CalledWithIterableResponseAdapter(new Proc(application)));
 
             return this;
         }
@@ -74,7 +74,7 @@ namespace NRack
 
         public Builder Map(string url, Func<IDictionary<string, dynamic>, dynamic[]> application)
         {
-            _appList.Add(new IterableResponseAdapter(application));
+            _appList.Add(new CalledWithIterableResponseAdapter(application));
 
             return this;
         }
@@ -90,7 +90,7 @@ namespace NRack
 
             if (appList.Last() is Dictionary<string, dynamic>)
             {
-                appList[appList.Length - 1] = new IterableResponseAdapter(new UrlMap(appList.Last()));
+                appList[appList.Length - 1] = new CalledWithIterableResponseAdapter(new UrlMap(appList.Last()));
             }
 
             var innerApp = appList.Last();
@@ -139,7 +139,7 @@ namespace NRack
                 rackApp = Activator.CreateInstance(rackApplicationType);
             }
 
-            return new IterableResponseAdapter(rackApp);
+            return new CalledWithIterableResponseAdapter(rackApp);
         }
     }
 }
