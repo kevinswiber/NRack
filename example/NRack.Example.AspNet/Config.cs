@@ -1,5 +1,5 @@
 using System;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.Auth;
 using NRack.Configuration;
 

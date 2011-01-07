@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NRack.Adapters
+namespace NRack.Helpers
 {
     /// <summary>
     /// The Proc class wraps a delegate and adds a Call method to dynamically invoke 

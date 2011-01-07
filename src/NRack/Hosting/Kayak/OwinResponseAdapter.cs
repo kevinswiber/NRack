@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
-using NRack.Adapters;
+using NRack.Helpers;
 
 namespace NRack.Hosting.Kayak
 {

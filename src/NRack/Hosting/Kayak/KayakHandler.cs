@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 using Kayak;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.ServerHelpers;
 
 namespace NRack.Hosting.Kayak

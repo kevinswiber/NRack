@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NRack.Adapters;
+using NRack.Helpers;
 using NRack.Auth;
 using NRack.Mock;
 using NUnit.Framework;

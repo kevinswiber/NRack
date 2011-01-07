@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace NRack.Adapters
+namespace NRack.Helpers
 {
-    public class IterableResponseAdapter : ICallable
+    public class CalledWithIterableResponseAdapter : ICallable
     {
         private readonly dynamic _innerObject;
 
-        public IterableResponseAdapter(dynamic innerObject)
+        public CalledWithIterableResponseAdapter(dynamic innerObject)
         {
             _innerObject = innerObject;
         }
@@ -15,7 +15,10 @@ namespace NRack.Adapters
         {
             var response = _innerObject.Call(environment);
 
-            response[2] = new IterableAdapter(response[2]);
+            if (response.Length > 2 && response[2] != null)
+            {
+                response[2] = new IterableAdapter(response[2]);
+            }
 
             return response;
         }

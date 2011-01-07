@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using NRack.Adapters;
+using NRack.Helpers;
 using NUnit.Framework;
 
 namespace NRack.Specs

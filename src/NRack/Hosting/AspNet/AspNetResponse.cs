@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Specialized;
-using NRack.Adapters;
+using NRack.Helpers;
 
 namespace NRack.Hosting.AspNet
 {

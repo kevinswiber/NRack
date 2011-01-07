@@ -1,4 +1,4 @@
-using NRack.Adapters;
+using NRack.Helpers;
 using NUnit.Framework;
 
 namespace NRack.Specs
@@ -130,7 +130,7 @@ namespace NRack.Specs
             headers.Each((key, value) =>
                              {
                                  Assert.AreEqual("foo", key);
-                                 Assert.AreEqual("bar\r\n\tbaz", value);
+                                 Assert.AreEqual("bar\nbaz", value);
                              });
         }
     }

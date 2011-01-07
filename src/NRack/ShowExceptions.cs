@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using NRack.Adapters;
+using NRack.Helpers;
 
 namespace NRack
 {
