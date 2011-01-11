@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace NRack
@@ -24,6 +25,35 @@ namespace NRack
         public static NameValueCollection ParseNestedQuery(string queryString)
         {
             return HttpUtility.ParseQueryString(queryString);
+        }
+
+        public static IEnumerable<IEnumerable<int>> ByteRanges(IDictionary<string, string> env, int size)
+        {
+            var httpRange = env.ContainsKey("HTTP_RANGE") ? env["HTTP_RANGE"] : null;
+
+            if (httpRange == null)
+            {
+                return null;
+            }
+
+            var ranges = new int[] {};
+
+            var rangeSpecs = Regex.Split(httpRange, ",\\s*");
+            foreach(var rangeSpec in rangeSpecs)
+            {
+                var matches = Regex.Matches(rangeSpec, "bytes=(\\d*)-(\\d*)");
+
+                if (matches.Count == 0)
+                {
+                    return null;
+                }
+
+                var r0 = matches[1];
+                var r1 = matches[2];
+                
+            }
+
+            return new[] {ranges};
         }
 
         public static Dictionary<int, string> HttpStatusCodes = new Dictionary<int, string>

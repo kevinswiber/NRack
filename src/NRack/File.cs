@@ -6,7 +6,7 @@ using NRack.Extensions;
 
 namespace NRack
 {
-    public class File : ICallable
+    public class File : ICallable, IPathConvertible
     {
         public string Root { get; set; }
         public string Path { get; set; }
@@ -26,6 +26,15 @@ namespace NRack
 
         #endregion
 
+        #region Implementation of IPathConvertible
+
+        public string ToPath()
+        {
+            return Path;
+        }
+
+        #endregion
+
         private dynamic[] InnerCall(IDictionary<string, dynamic> environment)
         {
             _pathInfo = Utils.Unescape(environment["PATH_INFO"]);
@@ -34,7 +43,7 @@ namespace NRack
                 return Fail(403, "Forbidden");
             }
 
-            Path = System.IO.Path.Combine(Path, _pathInfo);
+            Path = System.IO.Path.Combine(Path ?? string.Empty, _pathInfo);
 
             if (!System.IO.File.Exists(Path))
             {
@@ -79,7 +88,7 @@ namespace NRack
                                    new Hash
                                         {
                                             {"Last-Modified", System.IO.File.GetLastWriteTime(Path).Date.ToHttpDateString()},
-                                            {"Content-Type", Mime.MimeType(new FileInfo(Path).Extension)}
+                                            {"Content-Type", Mime.MimeType(new FileInfo(Path).Extension, "text/plain")}
                                         }, 
                                    this
                                };
