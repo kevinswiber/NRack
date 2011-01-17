@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using NRack.Helpers;
 
@@ -15,8 +16,24 @@ namespace NRack.Hosting.Kayak
 
         public IEnumerable<object> GetBody()
         {
-            string body = _response[2].ToString();
-            return new[] {Encoding.ASCII.GetBytes(body)};
+            dynamic body = _response[2];
+
+            var enumerableBody = new List<object>();
+
+            body.Each((Action<dynamic>)(innerBody =>
+                {
+                    if (innerBody is string)
+                    {
+                        enumerableBody.Add(Encoding.ASCII.GetBytes(innerBody));
+                    }
+                    else
+                    {
+                        enumerableBody.Add(innerBody);
+                    }
+                }));
+
+            return enumerableBody;
+            //return new[] {Encoding.ASCII.GetBytes(body)};
         }
 
         public string Status
@@ -42,7 +59,8 @@ namespace NRack.Hosting.Kayak
                 var adapted = new Dictionary<string, IList<string>>();
                 var headers = new HeaderHash(_response[1]);
 
-                headers.Each(pair => adapted.Add(pair.Key, new string[] {pair.Value.ToString()}));
+                headers.Each(pair => adapted.Add(pair.Key, new string[] { pair.Value.ToString() }));
+
 
                 return adapted;
             }

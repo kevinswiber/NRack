@@ -46,6 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Files\octocat.png" />
     <Content Include="Files\static.txt" />
     <Content Include="Scripts\jquery-1.4.2.js" />
     <Content Include="Web.config">

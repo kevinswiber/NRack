@@ -1,5 +1,6 @@
-using NRack.Helpers;
+using System;
 using NRack.Configuration;
+using NRack.Helpers;
 
 namespace NRack.Example.Kayak
 {
@@ -9,7 +10,11 @@ namespace NRack.Example.Kayak
 
         public override void Start()
         {
-            Run(env => new dynamic[] {200, new Hash {{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>"});
+
+            Map("/assets", rack =>
+                                rack.Run(new File(AppDomain.CurrentDomain.BaseDirectory + @"Files\")))
+            .Map("/", rack =>
+                rack.Run(env => new dynamic[] { 200, new Hash { { "Content-Type", "text/html" } }, "<h1>Hello, World!</h1>" }));
         }
 
         #endregion
