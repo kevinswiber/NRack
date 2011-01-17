@@ -43,7 +43,7 @@ namespace NRack
                 return Fail(403, "Forbidden");
             }
 
-            Path = System.IO.Path.Combine(Path ?? string.Empty, _pathInfo);
+            Path = System.IO.Path.Combine(Root ?? string.Empty, _pathInfo);
 
             if (!System.IO.File.Exists(Path))
             {
@@ -52,10 +52,7 @@ namespace NRack
 
             try
             {
-                using (var fileStream = System.IO.File.OpenRead(Path))
-                {
-                    return Serving(environment, fileStream);
-                }
+                return Serving(environment, Path);
             }
             catch (UnauthorizedAccessException)
             {
@@ -78,17 +75,18 @@ namespace NRack
                        };
         }
 
-        private dynamic[] Serving(IDictionary<string, dynamic> environment, FileStream fileStream)
+        private dynamic[] Serving(IDictionary<string, dynamic> environment, string path)
         {
-            var size = fileStream.Length;
+            var fileInfo = new FileInfo(path);
+            var size = fileInfo.Length;
 
             var response = new dynamic[]
                                {
                                    200, 
                                    new Hash
                                         {
-                                            {"Last-Modified", System.IO.File.GetLastWriteTime(Path).Date.ToHttpDateString()},
-                                            {"Content-Type", Mime.MimeType(new FileInfo(Path).Extension, "text/plain")}
+                                            {"Last-Modified", fileInfo.LastWriteTimeUtc.ToHttpDateString()},
+                                            {"Content-Type", Mime.MimeType(fileInfo.Extension, "text/plain")}
                                         }, 
                                    this
                                };

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteRanges_Specs.cs" />
     <Compile Include="HandlerRegistry_Specs.cs" />
     <Compile Include="ServerOptionsBuilder_Specs.cs" />
     <Compile Include="BasicAuth_Specs.cs" />
