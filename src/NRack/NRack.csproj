@@ -89,6 +89,7 @@
     <Compile Include="ServerHelpers\ServerOptions.cs" />
     <Compile Include="ServerHelpers\ServerOptionKeys.cs" />
     <Compile Include="ShowExceptions.cs" />
+    <Compile Include="Static.cs" />
     <Compile Include="UrlMap.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

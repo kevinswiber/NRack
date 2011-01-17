@@ -15,13 +15,15 @@ namespace NRack.Example.AspNet
             Use<BasicAuthHandler>("Rack Lobster!",
                                   (Func<string, string, bool>)
                                   ((username, password) => password == "p4ssw0rd!"))
+                .Map("/assets", rack =>
+                                rack.Run(new File(AppDomain.CurrentDomain.BaseDirectory + @"Files\")))
                 .Map("/", rack =>
                           rack.Run(env =>
                                    new dynamic[] {200, new Hash{{"Content-Type", "text/html"}},
                                        "<h1>Hello, World!</h1>"}))
                 .Map("/app", rack =>
                              rack.Map("/scripts", scripts =>
-                                 scripts.Run(new YuiCompressor(AppDomain.CurrentDomain.BaseDirectory + "Scripts\\")))
+                                 scripts.Run(new YuiCompressor(AppDomain.CurrentDomain.BaseDirectory + @"Scripts\")))
                              .Map("/", appRoot => appRoot.Run(new MyApp())))
                 .Map("/env", rack =>
                              rack.Run(new EnvironmentOutput()));

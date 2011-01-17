@@ -41,6 +41,12 @@ namespace NRack
         private dynamic[] InnerCall(IDictionary<string, dynamic> environment)
         {
             _pathInfo = Utils.Unescape(environment["PATH_INFO"]);
+
+            if (_pathInfo.StartsWith("/"))
+            {
+                _pathInfo = _pathInfo.Substring(1);
+            }
+
             if (_pathInfo.Contains(".."))
             {
                 return Fail(403, "Forbidden");
