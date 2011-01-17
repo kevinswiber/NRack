@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using NRack.Helpers;
+using System.Linq;
 using NRack.Extensions;
+using NRack.Helpers;
 
 namespace NRack
 {
-    public class File : ICallable, IPathConvertible
+    public class File : ICallable, IPathConvertible, IIterable
     {
         public string Root { get; set; }
         public string Path { get; set; }
 
         private string _pathInfo;
+        private IEnumerable<long> _range;
+
         public File(string root)
         {
             Root = root;
@@ -91,7 +94,63 @@ namespace NRack
                                    this
                                };
 
-            return null;
+            var ranges = Utils.ByteRanges(environment, size);
+
+            if (ranges == null || ranges.Count() > 1)
+            {
+                // No ranges or multiple ranges (which we don't support):
+                // TODO: Support multiple ranges.
+                response[0] = 200;
+                _range = Utils.CreateRangeArray(0, size - 1);
+            }
+            else if (!ranges.Any())
+            {
+                // Unsatisfiable.  Return error and file size.
+                response = Fail(416, "Byte range unsatisfiable");
+                response[1]["Content-Range"] = "bytes */" + size;
+                return response;
+            }
+            else
+            {
+                // Partial content
+                _range = ranges.First();
+                response[0] = 206;
+                response[1]["Content-Range"] = "bytes " + _range.First() + "-" + _range.Last() + "/" + size;
+                size = _range.Last() - _range.First() + 1;
+            }
+
+            response[1]["Content-Length"] = size.ToString();
+
+            return response;
         }
+
+        #region Implementation of IIterable
+
+        public void Each(Action<dynamic> action)
+        {
+            using (var fileStream = System.IO.File.OpenRead(Path))
+            {
+                fileStream.Seek(_range.First(), SeekOrigin.Begin);
+                var remainingLength = _range.Last() - _range.First() + 1;
+
+                while (remainingLength > 0)
+                {
+                    var bufferSize = remainingLength < 8192 ? remainingLength : 8192;
+                    var part = new byte[bufferSize];
+                    var bytesRead = fileStream.Read(part, (int)_range.First(), (int)bufferSize);
+
+                    if (bytesRead == 0)
+                    {
+                        break;
+                    }
+
+                    remainingLength -= bytesRead;
+
+                    action(part);
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using NRack.Helpers;
 using NUnit.Framework;
 
 namespace NRack.Specs
@@ -11,7 +11,7 @@ namespace NRack.Specs
         [Test]
         public void Should_Ignore_Syntactically_Invalid_Byte_Ranges()
         {
-            Assert.IsNull(Utils.ByteRanges(new Dictionary<string, string>(), 500));
+            Assert.IsNull(Utils.ByteRanges(new Dictionary<string, dynamic>(), 500));
             Assert.IsNull(CreateByteRanges("foobar", 500));
             Assert.IsNull(CreateByteRanges("furlongs=123-456", 500));
             Assert.IsNull(CreateByteRanges("bytes=", 500));
@@ -37,37 +37,44 @@ namespace NRack.Specs
         public void Should_Truncate_Byte_Ranges()
         {
             Assert.AreEqual(new[] {CreateRangeArray(123, 499)}, CreateByteRanges("bytes=123-999", 500));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=600-999", 500));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=600-999", 500));
             Assert.AreEqual(new[] {CreateRangeArray(0, 499)}, CreateByteRanges("bytes=-999", 500));
         }
 
         [Test]
         public void Should_Ignore_Unsatisfiable_Byte_Ranges()
         {
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=500-", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=999-", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=500-501", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=-0", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=500-", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=999-", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=500-501", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=-0", 0));
         }
 
         [Test]
         public void Should_Handle_Byte_Ranges_Of_Empty_Files()
         {
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=123-456", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=0-", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=-100", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=0-0", 0));
-            Assert.AreEqual(new[] {new int[0]}, CreateByteRanges("bytes=-0", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=123-456", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=0-", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=-100", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=0-0", 0));
+            Assert.AreEqual(new[] {new long[0]}, CreateByteRanges("bytes=-0", 0));
         }
         
-        private IEnumerable<IEnumerable<int>> CreateByteRanges(string rangeString, int size)
+        private IEnumerable<IEnumerable<long>> CreateByteRanges(string rangeString, int size)
         {
-            return Utils.ByteRanges(new Dictionary<string, string> {{"HTTP_RANGE", rangeString}}, size);
+            return Utils.ByteRanges(new Dictionary<string, dynamic> {{"HTTP_RANGE", rangeString}}, size);
         }
 
-        private int[] CreateRangeArray(int start, int end)
+        private static long[] CreateRangeArray(long start, long end)
         {
-            return Enumerable.Range(start, end - start + 1).ToArray();
+            var rangeArray = new Collection<long>();
+
+            for (var i = start; i <= end - start + 1; i++)
+            {
+                rangeArray.Add(i);
+            }
+
+            return rangeArray.ToArray();
         }
     }
 }

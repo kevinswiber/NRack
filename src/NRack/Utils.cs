@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -29,19 +30,19 @@ namespace NRack
             return HttpUtility.ParseQueryString(queryString);
         }
 
-        public static IEnumerable<IEnumerable<int>> ByteRanges(IDictionary<string, string> env, int size)
+        public static IEnumerable<IEnumerable<long>> ByteRanges(IDictionary<string, dynamic> env, long size)
         {
-            var httpRange = env.ContainsKey("HTTP_RANGE") ? env["HTTP_RANGE"] : null;
+            string httpRange = env.ContainsKey("HTTP_RANGE") ? env["HTTP_RANGE"] : null;
 
             if (httpRange == null)
             {
                 return null;
             }
-            
-            var ranges = new int[] {};
+
+            var ranges = new long[] { };
 
             var rangeSpecs = Regex.Split(httpRange, @",\s*");
-            foreach(var rangeSpec in rangeSpecs)
+            foreach (var rangeSpec in rangeSpecs)
             {
                 var regex = new Regex(@"bytes=(\d*)-(\d*)");
                 var matches = regex.Matches(rangeSpec);
@@ -60,8 +61,8 @@ namespace NRack
 
                 var r0 = groups[1].Value;
                 var r1 = groups[2].Value;
-                int r0Value;
-                int r1Value;
+                long r0Value;
+                long r1Value;
 
                 if (r0 == string.Empty)
                 {
@@ -69,14 +70,14 @@ namespace NRack
                     {
                         return null;
                     }
-                    
+
                     // suffix-byte-range-spec, represents trailing suffix of file
-                    r0Value = new[] {size - Convert.ToInt32(r1), 0}.Max();
+                    r0Value = new long[] { size - long.Parse(r1), 0 }.Max<long>();
                     r1Value = size - 1;
                 }
                 else
                 {
-                    r0Value = Convert.ToInt32(r0);
+                    r0Value = long.Parse(r0);
 
                     if (r1 == string.Empty)
                     {
@@ -84,9 +85,9 @@ namespace NRack
                     }
                     else
                     {
-                        r1Value = Convert.ToInt32(r1);
+                        r1Value = long.Parse(r1);
 
-                        if (r1Value < 0)
+                        if (r1Value < r0Value)
                         {
                             // backwards range is syntactically invalid
                             return null;
@@ -105,45 +106,22 @@ namespace NRack
                 }
             }
 
-            return new[] {ranges};
+            return new[] { ranges };
         }
 
 
-        private static int[] CreateRangeArray(int start, int end)
+        public static long[] CreateRangeArray(long start, long end)
         {
-            return Enumerable.Range(start, end - start + 1).ToArray();
-        }
-        /*
-         *     def byte_ranges(env, size)
-      # See <http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35>
-      http_range = env['HTTP_RANGE']
-      return nil unless http_range
-      ranges = []
-      http_range.split(/,\s/).each do |range_spec|
-        matches = range_spec.match(/bytes=(\d*)-(\d*)/)
-        return nil  unless matches
-        r0,r1 = matches[1], matches[2]
-        if r0.empty?
-          return nil  if r1.empty?
-          # suffix-byte-range-spec, represents trailing suffix of file
-          r0 = [size - r1.to_i, 0].max
-          r1 = size - 1
-        else
-          r0 = r0.to_i
-          if r1.empty?
-            r1 = size - 1
-          else
-            r1 = r1.to_i
-            return nil  if r1 < r0  # backwards range is syntactically invalid
-            r1 = size-1  if r1 >= size
-          end
-        end
-        ranges << (r0..r1)  if r0 <= r1
-      end
-      ranges
-    end
-         */
+            var rangeArray = new Collection<long>();
+            
+            for (var i = start; i <= end - start + 1; i++)
+            {
+                rangeArray.Add(i);
+            }
 
+            return rangeArray.ToArray();
+        }
+        
         //protected virtual void ParseRequestHeaderRanges(HttpContext context)
         //{
         //    HttpRequest Request = context.Request;
