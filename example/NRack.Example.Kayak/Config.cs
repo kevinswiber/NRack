@@ -10,9 +10,12 @@ namespace NRack.Example.Kayak
 
         public override void Start()
         {
-
-            Map("/assets", rack =>
-                                rack.Run(new File(AppDomain.CurrentDomain.BaseDirectory + @"Files\")))
+            Use<Static>(
+                new Hash
+                    {
+                        {"urls", new[] {"/Files"}},
+                        {"root", AppDomain.CurrentDomain.BaseDirectory}
+                    })
             .Map("/", rack =>
                 rack.Run(env => new dynamic[] { 200, new Hash { { "Content-Type", "text/html" } }, "<h1>Hello, World!</h1>" }));
         }
