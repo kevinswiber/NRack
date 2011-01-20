@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack", "NRack\NRack.csproj", "{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack", "src\NRack\NRack.csproj", "{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Specs", "..\test\NRack.Specs\NRack.Specs.csproj", "{4A14ACB7-BF68-401D-B116-77EC39B88A0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Specs", "test\NRack.Specs\NRack.Specs.csproj", "{4A14ACB7-BF68-401D-B116-77EC39B88A0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.Kayak", "..\example\NRack.Example.Kayak\NRack.Example.Kayak.csproj", "{8A669B5E-8E98-4F19-AF48-DDBF655F3792}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.Kayak", "example\NRack.Example.Kayak\NRack.Example.Kayak.csproj", "{8A669B5E-8E98-4F19-AF48-DDBF655F3792}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1A2EA382-9E8E-4DB8-9B87-714D6A7219A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRackup", "NRackup\NRackup.csproj", "{6661D675-614C-4DAC-978D-6C5B81221B51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRackup", "src\NRackup\NRackup.csproj", "{6661D675-614C-4DAC-978D-6C5B81221B51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.AspNet", "..\example\NRack.Example.AspNet\NRack.Example.AspNet.csproj", "{7194CE10-7F67-400B-AF13-5313DF8135EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.AspNet", "example\NRack.Example.AspNet\NRack.Example.AspNet.csproj", "{7194CE10-7F67-400B-AF13-5313DF8135EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
