@@ -143,7 +143,7 @@ namespace NRack
                 {
                     var bufferSize = remainingLength < 8192 ? remainingLength : 8192;
                     var part = new byte[bufferSize];
-                    var bytesRead = fileStream.Read(part, (int)_range.First(), (int)bufferSize);
+                    var bytesRead = fileStream.Read(part, 0, (int)bufferSize);
 
                     if (bytesRead == 0)
                     {

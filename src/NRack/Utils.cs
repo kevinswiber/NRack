@@ -106,17 +106,21 @@ namespace NRack
                 }
             }
 
-            return new[] { ranges };
+            return ranges.Any() 
+                ? new[] {ranges} 
+                : new long[][] {};
         }
 
 
         public static long[] CreateRangeArray(long start, long end)
         {
-            var rangeArray = new Collection<long>();
-            
-            for (var i = start; i <= end - start + 1; i++)
+            var arrayLength = end - start + 1;
+            var rangeArray = new long[arrayLength];
+
+            rangeArray[0] = start;
+            for (var i = 1; i < arrayLength; i++)
             {
-                rangeArray.Add(i);
+                rangeArray[i] = start + i;
             }
 
             return rangeArray.ToArray();

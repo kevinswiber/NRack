@@ -11,7 +11,7 @@ namespace NRack.Mock
         {
             Status = Convert.ToInt32(responseArray[0]);
             OriginalHeaders = responseArray[1];
-            Headers = (Hash) responseArray[1];
+            Headers = (Hash)responseArray[1];
 
             var bodyList = new List<string>();
             var body = responseArray[2] as IIterable;
@@ -22,14 +22,24 @@ namespace NRack.Mock
             }
 
 
-            body.Each(part => bodyList.Add(part.ToString()));
+            body.Each(part =>
+                          {
+                              if (part is byte[])
+                              {
+                                  bodyList.Add(System.Text.Encoding.ASCII.GetString(part));
+                              }
+                              else
+                              {
+                                  bodyList.Add(part.ToString());
+                              }
+                          });
 
             Body = new IterableAdapter(bodyList);
 
             var errors = responseArray.Length > 3 ? responseArray[3] : new MemoryStream();
             if (errors is MemoryStream)
             {
-                var errorStream = (MemoryStream) errors;
+                var errorStream = (MemoryStream)errors;
 
                 var pos = errorStream.Position;
                 errorStream.Position = 0;
@@ -45,7 +55,7 @@ namespace NRack.Mock
 
         public string this[string name]
         {
-            get { return Headers[name]; } 
+            get { return Headers[name]; }
         }
 
         public int Status { get; private set; }

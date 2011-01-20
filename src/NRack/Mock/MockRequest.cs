@@ -52,6 +52,10 @@ namespace NRack.Mock
             App = app;
         }
 
+        public MockRequest()
+        {
+        }
+
         public dynamic App { get; private set; }
 
         public dynamic Get(string uri, Dictionary<string, dynamic> opts = null)
@@ -146,12 +150,12 @@ namespace NRack.Mock
                 env["SERVER_NAME"] = !string.IsNullOrEmpty(newUri.Host) ? newUri.Host : "example.org";
                 env["SERVER_PORT"] = !string.IsNullOrEmpty(newUri.Port.ToString()) ? newUri.Port.ToString() : "80";
                 env["QUERY_STRING"] = !string.IsNullOrEmpty(newUri.Query) ? newUri.Query : string.Empty;
-                
+
                 var virtualPath = newUri.GetComponents(UriComponents.Path, UriFormat.Unescaped);
                 env["PATH_INFO"] = string.IsNullOrEmpty(virtualPath) ? "/" : virtualPath;
-                
+
                 env["rack.url_scheme"] = string.IsNullOrEmpty(newUri.Scheme) ? "http" : newUri.Scheme;
-                
+
                 env["HTTPS"] = env["rack.url_scheme"] == "https" ? "on" : "off";
             }
             else
@@ -163,7 +167,7 @@ namespace NRack.Mock
                 env["rack.url_scheme"] = "http";
                 env["HTTPS"] = "off";
             }
-            
+
             env["SCRIPT_NAME"] = opts.ContainsKey("script_name") ? opts["script_name"] : string.Empty;
 
             if (opts.ContainsKey("fatal"))
@@ -185,7 +189,7 @@ namespace NRack.Mock
                     {
                         parameters = new Utils().ParseNestedQuery(parameters);
                     }
-                    foreach(var parm in new Utils().ParseNestedQuery(env["QUERY_STRING"]))
+                    foreach (var parm in new Utils().ParseNestedQuery(env["QUERY_STRING"]))
                     {
                         parameters[parm.Key] = parm.Value;
                     }
@@ -218,7 +222,7 @@ namespace NRack.Mock
                 env["CONTENT_LENGTH"] = env["rack.input"].Length.ToString();
             }
 
-            foreach(var item in opts)
+            foreach (var item in opts)
             {
                 env[item.Key] = item.Value;
             }
