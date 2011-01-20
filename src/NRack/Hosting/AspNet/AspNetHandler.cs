@@ -6,23 +6,23 @@ using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
 using NRack.Configuration;
-using NRack.Helpers;
 
 namespace NRack.Hosting.AspNet
 {
-    public class AspNetHandler : IHttpHandler
+    public class AspNetHandler : IHttpAsyncHandler
     {
-        public static Func<Builder> GetBuilderInContext;
-        public static ConfigBase Config;
+        private Action<HttpContext> _requestProcessor;
+        private Func<Builder> _getBuilderInContext;
+        private ConfigBase _config;
 
         #region Implementation of IHttpHandler
 
         public void ProcessRequest(HttpContext context)
         {
-            if (Config == null)
+            if (_config == null)
             {
-                Config = GetRackConfigInstance();
-                GetBuilderInContext = () => new Builder(Config.ExecuteStart);
+                _config = GetRackConfigInstance();
+                _getBuilderInContext = () => new Builder(_config.ExecuteStart);
             }
 
             var rawEnvironment = context.Request.Params;
@@ -53,7 +53,7 @@ namespace NRack.Hosting.AspNet
                 environment["SCRIPT_NAME"] = string.Empty;
             }
 
-            var builder = GetBuilderInContext();
+            var builder = _getBuilderInContext();
             var responseArray = builder.Call(environment);
 
             var response = AspNetResponse.Create(responseArray);
@@ -148,5 +148,31 @@ namespace NRack.Hosting.AspNet
         {
             return typeof(ConfigBase).IsAssignableFrom(type);
         }
+
+        #region Implementation of IHttpAsyncHandler
+
+        /// <summary>
+        /// Initiates an asynchronous call to the HTTP handler.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.IAsyncResult"/> that contains information about the status of the process.
+        /// </returns>
+        /// <param name="context">An <see cref="T:System.Web.HttpContext"/> object that provides references to intrinsic server objects (for example, Request, Response, Session, and Server) used to service HTTP requests. </param><param name="cb">The <see cref="T:System.AsyncCallback"/> to call when the asynchronous method call is complete. If <paramref name="cb"/> is null, the delegate is not called. </param><param name="extraData">Any extra data needed to process the request. </param>
+        public IAsyncResult BeginProcessRequest(HttpContext context, AsyncCallback cb, object extraData)
+        {
+            _requestProcessor = ProcessRequest;
+            return _requestProcessor.BeginInvoke(context, cb, extraData);
+        }
+
+        /// <summary>
+        /// Provides an asynchronous process End method when the process ends.
+        /// </summary>
+        /// <param name="result">An <see cref="T:System.IAsyncResult"/> that contains information about the status of the process. </param>
+        public void EndProcessRequest(IAsyncResult result)
+        {
+            _requestProcessor.EndInvoke(result);
+        }
+
+        #endregion
     }
 }
