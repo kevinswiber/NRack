@@ -38,9 +38,9 @@ namespace NRack.Example.AspNet
             var response = string.Format("Not found: {0}.", path);
             var responseCode = 400;
 
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {
-                var js = File.ReadAllText(path);
+                var js = System.IO.File.ReadAllText(path);
                 response = JavaScriptCompressor.Compress(js);
                 responseCode = 200;
             }

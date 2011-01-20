@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ByteRanges_Specs.cs" />
+    <Compile Include="File_Specs.cs" />
     <Compile Include="HandlerRegistry_Specs.cs" />
     <Compile Include="ServerOptionsBuilder_Specs.cs" />
     <Compile Include="BasicAuth_Specs.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server_Specs.cs" />
     <Compile Include="ShowExceptions_Specs.cs" />
+    <Compile Include="Static_Specs.cs" />
     <Compile Include="UrlMap_Specs.cs" />
     <Compile Include="HeaderHash_Specs.cs" />
   </ItemGroup>
@@ -64,6 +67,12 @@
       <Project>{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}</Project>
       <Name>NRack</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="cgi\test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

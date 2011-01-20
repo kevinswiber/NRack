@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
 using NRack.Configuration;
+using NRack.Helpers;
 
 namespace NRack.Hosting.AspNet
 {
@@ -68,22 +69,25 @@ namespace NRack.Hosting.AspNet
                 }
             }
 
-            if (response.Body is string)
-            {
-                context.Response.Write(response.Body);
-            }
-            else
-            {
-                response.Body.Each((Action<dynamic>)(body => context.Response.Write(body)));
-            }
+            response.Body.Each((Action<dynamic>)(body =>
+                {
+                    if (body is string)
+                    {
+                        context.Response.Write(body);
+                    }
+                    else if (body is byte[])
+                    {
+                        context.Response.BinaryWrite(body);
+                    }
+                }));
 
             var methodInfos = (IEnumerable<MethodInfo>)response.Body.GetType().GetMethods();
-            
+
             var closeMethods = Enumerable.Where(methodInfos, method => method.Name == "Close");
 
-            foreach(var method in closeMethods)
+            foreach (var method in closeMethods)
             {
-                if(method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
+                if (method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
                 {
                     method.Invoke(response.Body, null);
                     break;

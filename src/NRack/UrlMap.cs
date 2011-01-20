@@ -54,7 +54,7 @@ namespace NRack
                 var match = new Regex("^" + escapedLocation + "(.*)", RegexOptions.CultureInvariant);
                 var app = map[key];
 
-                _mapping.Add(new {Host = host, Location = location, Match = match, App = app});
+                _mapping.Add(new { Host = host, Location = location, Match = match, App = app });
             }
 
             _mapping = Enumerable.OrderByDescending(_mapping, mapping => ((mapping.Host ?? string.Empty) + mapping.Location).Length).ToList();
@@ -80,7 +80,7 @@ namespace NRack
                         continue;
                     }
 
-                    var match = (Regex) mapping.Match;
+                    var match = (Regex)mapping.Match;
                     string rest = null;
 
                     var matched = match.Match(pathInfo);
@@ -118,7 +118,7 @@ namespace NRack
                     return mapping.App.Call(env);
                 }
 
-            return new dynamic[]
+                return new dynamic[]
                        {
                            404, new Hash {{"Content-Type", "text/plain"}, {"X-Cascade", "pass"}},
                            new[] {"Not Found: " + pathInfo}

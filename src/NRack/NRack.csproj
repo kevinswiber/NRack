@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
     <Compile Include="Helpers\DetachedApplication.cs" />
     <Compile Include="Helpers\HeaderHash.cs" />
     <Compile Include="Auth\Abstract\AuthHandlerBase.cs" />
@@ -57,14 +58,17 @@
     <Compile Include="ContentLength.cs" />
     <Compile Include="ContentType.cs" />
     <Compile Include="Helpers\Hash.cs" />
-    <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
+    <Compile Include="Extensions\HttpExtensions.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="HandlerRegistry.cs" />
     <Compile Include="Hosting\Kayak\KayakHandler.cs" />
     <Compile Include="Hosting\Kayak\OwinResponseAdapter.cs" />
     <Compile Include="ICallable.cs" />
+    <Compile Include="IPathConvertible.cs" />
     <Compile Include="IIterable.cs" />
     <Compile Include="Configuration\ConfigBase.cs" />
     <Compile Include="Configuration\RackConfigurationSection.cs" />
+    <Compile Include="Mime.cs" />
     <Compile Include="Mock\MockRequest.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -85,6 +89,7 @@
     <Compile Include="ServerHelpers\ServerOptions.cs" />
     <Compile Include="ServerHelpers\ServerOptionKeys.cs" />
     <Compile Include="ShowExceptions.cs" />
+    <Compile Include="Static.cs" />
     <Compile Include="UrlMap.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

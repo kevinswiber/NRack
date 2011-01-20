@@ -20,6 +20,12 @@ namespace NRack.Hosting.Kayak
 
             server.Host((env, respond, error) =>
                             {
+
+                                env["PATH_INFO"] = env["Owin.RequestUri"];
+                                env["SCRIPT_NAME"] = env["Owin.BaseUri"];
+                                env["SERVER_NAME"] = env["Owin.ServerName"];
+                                env["SERVER_PORT"] = env["Owin.ServerPort"];
+
                                 var response = app.Call(env);
                                 var adapter = new OwinResponseAdapter(response);
                                 respond(adapter.Status, adapter.Headers, adapter.GetBody());
