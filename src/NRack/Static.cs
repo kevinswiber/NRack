@@ -13,6 +13,8 @@ namespace NRack
 
         public Static(dynamic app, Hash options = null)
         {
+            _app = app;
+
             if (options == null)
             {
                 options = new Hash();
