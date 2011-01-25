@@ -10,7 +10,7 @@ Here is a small example of an NRack application.
 	{
 			public dynamic[] Call(IDictionary<string, dynamic> environment)
 			{
-					return new dynamic[] { 200, new Headers{{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>"};
+					return new dynamic[] { 200, new Hash{{"Content-Type", "text/html"}}, "<h1>Hello, World!</h1>"};
 			}
 	}
 
