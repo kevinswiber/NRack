@@ -20,9 +20,16 @@ namespace NRack.Hosting.Kayak
 
             server.Host((env, respond, error) =>
                             {
+                                env["REQUEST_METHOD"] = env["Owin.RequestMethod"];
+                                var requestUri = env["Owin.RequestUri"].ToString();
+                                var questionMarkIndex = requestUri.IndexOf('?');
 
-                                env["PATH_INFO"] = env["Owin.RequestUri"];
+                                env["PATH_INFO"] = questionMarkIndex > -1 ? requestUri.Substring(0, questionMarkIndex) : requestUri;
                                 env["SCRIPT_NAME"] = env["Owin.BaseUri"];
+                                env["QUERY_STRING"] = questionMarkIndex > -1
+                                                          ? requestUri.Substring(questionMarkIndex + 1)
+                                                          : string.Empty;
+
                                 env["SERVER_NAME"] = env["Owin.ServerName"];
                                 env["SERVER_PORT"] = env["Owin.ServerPort"];
 
