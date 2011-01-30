@@ -136,7 +136,7 @@ namespace NRack.Mock
             env["rack.multiprocess"] = true;
             env["rack.run_once"] = false;
 
-            if (!uri.StartsWith("/"))
+            if (!uri.StartsWith("/") && !uri.StartsWith("http://") && !uri.StartsWith("https://"))
             {
                 uri = "/" + uri;
             }
@@ -149,10 +149,10 @@ namespace NRack.Mock
             {
                 env["SERVER_NAME"] = !string.IsNullOrEmpty(newUri.Host) ? newUri.Host : "example.org";
                 env["SERVER_PORT"] = !string.IsNullOrEmpty(newUri.Port.ToString()) ? newUri.Port.ToString() : "80";
-                env["QUERY_STRING"] = !string.IsNullOrEmpty(newUri.Query) ? newUri.Query : string.Empty;
+                env["QUERY_STRING"] = !string.IsNullOrEmpty(newUri.Query) ? newUri.Query.Remove(0, 1) : string.Empty;
 
                 var virtualPath = newUri.GetComponents(UriComponents.Path, UriFormat.Unescaped);
-                env["PATH_INFO"] = string.IsNullOrEmpty(virtualPath) ? "/" : virtualPath;
+                env["PATH_INFO"] = string.IsNullOrEmpty(virtualPath) ? "/" : "/" + virtualPath;
 
                 env["rack.url_scheme"] = string.IsNullOrEmpty(newUri.Scheme) ? "http" : newUri.Scheme;
 
@@ -228,6 +228,20 @@ namespace NRack.Mock
             }
 
             return env;
+        }
+    }
+
+    public class UriParser : HttpStyleUriParser
+    {
+        public void Initialize(string uri)
+        {
+            UriFormatException formatException;
+            base.InitializeAndValidate(new Uri(uri), out formatException);
+
+            if (formatException != null)
+            {
+                throw formatException;
+            }
         }
     }
 }
