@@ -230,18 +230,4 @@ namespace NRack.Mock
             return env;
         }
     }
-
-    public class UriParser : HttpStyleUriParser
-    {
-        public void Initialize(string uri)
-        {
-            UriFormatException formatException;
-            base.InitializeAndValidate(new Uri(uri), out formatException);
-
-            if (formatException != null)
-            {
-                throw formatException;
-            }
-        }
-    }
 }

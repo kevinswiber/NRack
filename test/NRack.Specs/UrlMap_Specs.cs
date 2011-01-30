@@ -61,7 +61,7 @@ namespace NRack.Specs
             Assert.AreEqual("/foo/bar", res["X-ScriptName"]);
             Assert.AreEqual("//quux", res["X-PathInfo"]);
 
-            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, object> {{"SCRIPT_NAME", "/bleh"}});
+            res = new MockRequest(map).Get("/foo/quux", new Dictionary<string, object> { { "SCRIPT_NAME", "/bleh" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("/bleh/foo", res["X-ScriptName"]);
             Assert.AreEqual("/quux", res["X-PathInfo"]);
@@ -103,22 +103,20 @@ namespace NRack.Specs
             Assert.AreEqual("foo.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, object>
-                                               {{"HTTP_HOST", "subdomain.foo.org"}, {"SERVER_NAME", "foo.org"}});
+                                           new Dictionary<string, object> { { "HTTP_HOST", "subdomain.foo.org" }, { "SERVER_NAME", "foo.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("subdomain.foo.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("http://foo.org/");
             Assert.AreEqual(200, res.Status);
-            Assert.AreEqual("default.org", res["X-Position"]);
+            Assert.AreEqual("foo.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/", new Dictionary<string, object> { { "HTTP_HOST", "example.org" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
 
             res = new MockRequest(map).Get("/",
-                                           new Dictionary<string, object>
-                                               {{"HTTP_HOST", "example.org:9292"}, {"SERVER_PORT", "9292"}});
+                                           new Dictionary<string, object> { { "HTTP_HOST", "example.org:9292" }, { "SERVER_PORT", "9292" } });
             Assert.AreEqual(200, res.Status);
             Assert.AreEqual("default.org", res["X-Position"]);
         }
