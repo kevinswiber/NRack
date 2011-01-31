@@ -5,7 +5,7 @@ namespace NRack.Specs
 {
     public class MockRequest_Specs
     {
-        public void Should_Use_All_Parts_Of_An_URL()
+        public void Should_Use_All_Parts_Of_An_Absolute_URL()
         {
             var env = new MockRequest()
                 .EnvironmentFor("https://bla.example.org:9292/meh/foo?bar");
@@ -16,6 +16,17 @@ namespace NRack.Specs
             Assert.AreEqual("bar", env["QUERY_STRING"]);
             Assert.AreEqual("/meh/foo", env["PATH_INFO"]);
             Assert.AreEqual("https", env["rack.url_scheme"]);
+        }
+
+        [Test]
+        public void Should_Use_All_Parts_Of_An_Relative_URL()
+        {
+            var env = new MockRequest()
+                .EnvironmentFor("/meh/foo?bar");
+
+            Assert.AreEqual("GET", env["REQUEST_METHOD"]);
+            Assert.AreEqual("bar", env["QUERY_STRING"]);
+            Assert.AreEqual("/meh/foo", env["PATH_INFO"]);
         }
     }
 }

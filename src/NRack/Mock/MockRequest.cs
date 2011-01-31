@@ -160,10 +160,16 @@ namespace NRack.Mock
             }
             else
             {
+                var questionMarkIndex = uri.IndexOf('?');
+                var hasQueryString = questionMarkIndex > -1;
+                var path = string.IsNullOrEmpty(uri)
+                               ? "/"
+                               : (hasQueryString ? uri.Substring(0, questionMarkIndex) : uri);
+
                 env["SERVER_NAME"] = "example.org";
                 env["SERVER_PORT"] = 80;
-                env["QUERY_STRING"] = string.Empty;
-                env["PATH_INFO"] = string.IsNullOrEmpty(newUri.OriginalString) ? "/" : newUri.OriginalString;
+                env["QUERY_STRING"] = hasQueryString ? uri.Substring(questionMarkIndex + 1) : string.Empty;
+                env["PATH_INFO"] = path;
                 env["rack.url_scheme"] = "http";
                 env["HTTPS"] = "off";
             }
