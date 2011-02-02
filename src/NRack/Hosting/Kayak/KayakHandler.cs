@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net;
 using Kayak;
 using NRack.Helpers;
@@ -32,6 +33,9 @@ namespace NRack.Hosting.Kayak
 
                                 env["SERVER_NAME"] = env["Owin.ServerName"];
                                 env["SERVER_PORT"] = env["Owin.ServerPort"];
+
+                                // This version of Kayak has faulty handling for request input.
+                                env["rack.input"] = new MemoryStream();
 
                                 var response = app.Call(env);
                                 var adapter = new OwinResponseAdapter(response);
