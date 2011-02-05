@@ -25,14 +25,16 @@ namespace NRack.Hosting.AspNet
                 _getBuilderInContext = () => new Builder(_config.ExecuteStart);
             }
 
-            var rawEnvironment = context.Request.Params;
+            var rawEnvironment = context.Request.ServerVariables;
             Dictionary<string, dynamic> environment =
                 rawEnvironment.AllKeys.ToDictionary(key => key, key => (object)rawEnvironment[key]);
 
-            if ((string)environment["SCRIPT_NAME"] == string.Empty)
-            {
-                environment["SCRIPT_NAME"] = "/";
-            }
+            environment["SCRIPT_NAME"] = string.Empty;
+
+            //if ((string)environment["SCRIPT_NAME"] == string.Empty)
+            //{
+            //    environment["SCRIPT_NAME"] = "/";
+            //}
 
             var rackEnvs = new Dictionary<string, dynamic>
                                {
@@ -48,10 +50,10 @@ namespace NRack.Hosting.AspNet
 
             environment = environment.Union(rackEnvs).ToDictionary(key => key.Key, val => val.Value);
 
-            if (!environment.ContainsKey("SCRIPT_NAME"))
-            {
-                environment["SCRIPT_NAME"] = string.Empty;
-            }
+            //if (!environment.ContainsKey("SCRIPT_NAME"))
+            //{
+            //    environment["SCRIPT_NAME"] = string.Empty;
+            //}
 
             var builder = _getBuilderInContext();
             var responseArray = builder.Call(environment);

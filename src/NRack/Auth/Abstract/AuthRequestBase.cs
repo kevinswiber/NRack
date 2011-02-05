@@ -30,7 +30,7 @@ namespace NRack.Auth.Abstract
             get
             {
                 return _parts ??
-                       (_parts = ((string)Environment[AuthorizationKey]).Split(new[] {' '}, 2));
+                       (_parts = ((string)Environment[AuthorizationKey]).Split(new[] { ' ' }, 2));
             }
         }
 
@@ -43,7 +43,8 @@ namespace NRack.Auth.Abstract
 
         private string AuthorizationKey
         {
-            get {
+            get
+            {
                 return _authorizationKey ??
                        (_authorizationKey = GetAuthorizationKey());
             }
