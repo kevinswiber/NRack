@@ -228,6 +228,16 @@ namespace NRack.Mock
                 env["CONTENT_LENGTH"] = env["rack.input"].Length.ToString();
             }
 
+            if (!env.ContainsKey("CONTENT_LENGTH"))
+            {
+                env["CONTENT_LENGTH"] = 0;
+            }
+
+            if (!env.ContainsKey("CONTENT_TYPE"))
+            {
+                env["CONTENT_TYPE"] = null;
+            }
+
             foreach (var item in opts)
             {
                 env[item.Key] = item.Value;

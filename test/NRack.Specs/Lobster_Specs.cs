@@ -1,10 +1,11 @@
+using System;
 using NRack.Mock;
 using NUnit.Framework;
 
 namespace NRack.Specs
 {
     [TestFixture]
-    public class Lobster_Specs
+    public class LambdaLobster_Specs
     {
         [Test]
         public void Should_Look_Like_A_Lobster()
@@ -14,11 +15,44 @@ namespace NRack.Specs
             Assert.AreEqual(200, response.Status);
             Assert.IsTrue(response.Body.ToString().Contains("(,(,,(,,,("));
             Assert.IsTrue(response.Body.ToString().Contains("?flip"));
-            /*
-             *     res.should.be.ok
-    res.body.should.include "(,(,,(,,,("
-    res.body.should.include "?flip"
-             */
+        }
+
+        [Test]
+        public void Should_Be_Flippable()
+        {
+            var response = new MockRequest(Lobster.LambdaLobster).Get("/?flip");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.IsTrue(response.Body.ToString().Contains("(,,,(,,(,("));
+        }
+    }
+
+    public class Lobster_Specs
+    {
+        [Test]
+        public void Should_Look_Like_A_Lobster()
+        {
+            var response = new MockRequest(new Lobster()).Get("/");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.IsTrue(response.Body.ToString().Contains("(,(,,(,,,("));
+            Assert.IsTrue(response.Body.ToString().Contains("?flip"));
+            Assert.IsTrue(response.Body.ToString().Contains("crash"));
+        }
+
+        [Test]
+        public void Should_Be_Flippable()
+        {
+            var response = new MockRequest(new Lobster()).Get("/?flip=left");
+
+            Assert.AreEqual(200, response.Status);
+            Assert.IsTrue(response.Body.ToString().Contains("(,,,(,,(,("));
+        }
+
+        [Test]
+        public void Should_Provide_Crashing_For_Test_Purposes()
+        {
+            Assert.Throws<Exception>(() => new MockRequest(new Lobster()).Get("/?fli=crash"));
         }
     }
 }

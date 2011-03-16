@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
-using NRack.Adapters;
+using NRack.Helpers;
 
 
 namespace NRack
 {
-    public class Lobster : IApplication
+    public class Lobster : ICallable
     {
         private const string EncodedLobster = @"eJx9kEEOwyAMBO99xd7MAcytUhPlJyj2
     P6jy9i4k9EQyGAnBarEXeCBqSkntNXsi/ZCvC48zGQoZKikGrFMZvgS5ZHd+aGWVuWwhVF0
@@ -16,7 +17,7 @@ namespace NRack
 
         public static string LobsterString = GetLobsterString();
         public static dynamic LambdaLobster = GetLambdaLobster();
-        
+
         private static string GetLobsterString()
         {
             var lobster64 = EncodedLobster.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty);
@@ -34,10 +35,10 @@ namespace NRack
             }
 
             inflater.Close();
-            var _lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
+            var lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
             lobsterOut.Close();
 
-            return _lobsterString;
+            return lobsterString;
         }
 
         private static object GetLambdaLobster()
@@ -45,12 +46,14 @@ namespace NRack
             return DetachedApplication.Create(env =>
             {
                 var lobster = string.Empty;
-                var href = string.Empty;
+                string href;
 
                 if (env.ContainsKey("QUERY_STRING") &&
                     env["QUERY_STRING"].ToString().Contains("flip"))
                 {
-                    // reverse lobster
+                    var lobsterArray = LobsterString.Split('\n').Select(x => new string(x.Reverse().ToArray())).ToArray();
+
+                    lobster = string.Join("\n", lobsterArray);
                     href = "?";
                 }
                 else
@@ -63,17 +66,21 @@ namespace NRack
                               lobster + "</pre><a href=\"" + href +
                               "\">flip!</a>";
 
-                return null;
+                return new dynamic[]
+                           {
+                               200, 
+                               new Hash {{"Content-Length", content.Length.ToString()}, 
+                                    {"Content-Type", "text/html"}}, 
+                               content
+                           };
             });
         }
 
-        #region Implementation of IApplication
-
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
-            throw new NotImplementedException();
-        }
+            var request = new Request(environment);
 
-        #endregion
+            return null;
+        }
     }
 }
