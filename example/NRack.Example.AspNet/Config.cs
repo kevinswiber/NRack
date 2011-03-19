@@ -1,7 +1,7 @@
 using System;
-using NRack.Helpers;
 using NRack.Auth;
 using NRack.Configuration;
+using NRack.Helpers;
 
 namespace NRack.Example.AspNet
 {
