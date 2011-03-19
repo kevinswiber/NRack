@@ -53,6 +53,7 @@
     <Compile Include="Lobster_Specs.cs" />
     <Compile Include="MockRequest_Specs.cs" />
     <Compile Include="Request_Specs.cs" />
+    <Compile Include="Response_Specs.cs" />
     <Compile Include="ServerOptionsBuilder_Specs.cs" />
     <Compile Include="BasicAuth_Specs.cs" />
     <Compile Include="Builder_Specs.cs" />

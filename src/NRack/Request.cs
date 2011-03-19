@@ -58,6 +58,13 @@ namespace NRack
             get { return Environment["CONTENT_TYPE"]; }
         }
 
+        public bool IsDelete { get { return RequestMethod == "DELETE"; } }
+        public bool IsGet { get { return RequestMethod == "GET"; } }
+        public bool IsHead { get { return RequestMethod == "HEAD"; } }
+        public bool IsPost { get { return RequestMethod == "POST"; } }
+        public bool IsPut { get { return RequestMethod == "PUT"; } }
+        public bool IsTrace { get { return RequestMethod == "TRACE"; } }
+
         public string HostWithPort
         {
             get
@@ -82,7 +89,6 @@ namespace NRack
                 return hostWithPort;
             }
         }
-
 
         public string Host
         {
@@ -124,6 +130,42 @@ namespace NRack
         public dynamic Logger
         {
             get { return Environment["rack.logger"]; }
+        }
+
+        public IDictionary<string, string> GET
+        {
+            get
+            {
+                const string QueryStringKey = "rack.request.query_string";
+                const string QueryHashKey = "rack.request.query_hash";
+
+                if (Environment.ContainsKey(QueryStringKey) && Environment[QueryStringKey] == QueryString)
+                {
+                    return Environment[QueryHashKey];
+                }
+
+                Environment[QueryStringKey] = QueryString;
+                Environment[QueryHashKey] = ParseQuery(QueryString);
+                return Environment[QueryHashKey];
+            }
+        }
+
+        public IDictionary<string, string> POST
+        {
+            get { return new Dictionary<string, string>(); }
+        }
+
+        public IDictionary<string, string> Params
+        {
+            get
+            {
+                return GET.Concat(POST).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            }
+        }
+
+        protected IDictionary<string, string> ParseQuery(string queryString)
+        {
+            return Utils.ParseNestedQuery(queryString);
         }
     }
 }

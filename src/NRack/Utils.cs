@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -25,9 +23,11 @@ namespace NRack
             return HttpUtility.ParseQueryString(queryString);
         }
 
-        public static NameValueCollection ParseNestedQuery(string queryString)
+        public static IDictionary<string, string> ParseNestedQuery(string queryString)
         {
-            return HttpUtility.ParseQueryString(queryString);
+            var nameValueCollection = HttpUtility.ParseQueryString(queryString);
+
+            return nameValueCollection.AllKeys.ToDictionary(key => key, key => nameValueCollection[key]);
         }
 
         public static IEnumerable<IEnumerable<long>> ByteRanges(IDictionary<string, dynamic> env, long size)
@@ -106,9 +106,9 @@ namespace NRack
                 }
             }
 
-            return ranges.Any() 
-                ? new[] {ranges} 
-                : new long[][] {};
+            return ranges.Any()
+                ? new[] { ranges }
+                : new long[][] { };
         }
 
 
@@ -125,7 +125,7 @@ namespace NRack
 
             return rangeArray.ToArray();
         }
-        
+
         //protected virtual void ParseRequestHeaderRanges(HttpContext context)
         //{
         //    HttpRequest Request = context.Request;

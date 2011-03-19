@@ -79,8 +79,33 @@ namespace NRack
         public dynamic[] Call(IDictionary<string, dynamic> environment)
         {
             var request = new Request(environment);
+            string lobster;
+            string href;
 
-            return null;
+            if (request.GET.ContainsKey("flip") && request.GET["flip"] == "left")
+            {
+                lobster = string.Join("\n", LobsterString.Split('\n').Select(line => new string(line.PadRight(42).Reverse().ToArray())));
+                href = "?flip=right";
+            }
+            else if (request.GET.ContainsKey("flip") && request.GET["flip"] == "crash")
+            {
+                throw new InvalidOperationException("Lobster crashed!");
+            }
+            else
+            {
+                lobster = LobsterString;
+                href = "?flip=left";
+            }
+
+            var response = new Response();
+            response.Write("<title>Lobstericious!</title>");
+            response.Write("<pre>");
+            response.Write(lobster);
+            response.Write("</pre>");
+            response.Write("<p><a href='" + href + "'>flip!</a></p>");
+            response.Write("<p><a href='?flip=crash'>crash!</a></p>");
+
+            return response.Finish();
         }
     }
 }

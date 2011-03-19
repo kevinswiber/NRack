@@ -52,7 +52,7 @@ namespace NRack.Specs
         [Test]
         public void Should_Provide_Crashing_For_Test_Purposes()
         {
-            Assert.Throws<Exception>(() => new MockRequest(new Lobster()).Get("/?fli=crash"));
+            Assert.Throws<InvalidOperationException>(() => new MockRequest(new Lobster()).Get("/?flip=crash"));
         }
     }
 }

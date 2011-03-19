@@ -87,6 +87,7 @@
     <Compile Include="Hosting\AspNet\AspNetResponse.cs" />
     <Compile Include="Helpers\IterableAdapter.cs" />
     <Compile Include="Iterable.cs" />
+    <Compile Include="Response.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="ServerHelpers\ConfigFactory.cs" />
     <Compile Include="ServerHelpers\ConfigFinder.cs" />
