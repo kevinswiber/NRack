@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NRack
 {
@@ -33,7 +35,7 @@ namespace NRack
 
         public int Port
         {
-            get { return Environment["SERVER_PORT"]; }
+            get { return Convert.ToInt32(Environment["SERVER_PORT"]); }
         }
 
         public string RequestMethod
@@ -46,14 +48,56 @@ namespace NRack
             get { return Environment["QUERY_STRING"]; }
         }
 
-        public string ContentLength
+        public int ContentLength
         {
-            get { return Environment["CONTENT_LENGTH"]; }
+            get { return Convert.ToInt32(Environment["CONTENT_LENGTH"]); }
         }
 
         public string ContentType
         {
             get { return Environment["CONTENT_TYPE"]; }
+        }
+
+        public bool IsDelete { get { return RequestMethod == "DELETE"; } }
+        public bool IsGet { get { return RequestMethod == "GET"; } }
+        public bool IsHead { get { return RequestMethod == "HEAD"; } }
+        public bool IsPost { get { return RequestMethod == "POST"; } }
+        public bool IsPut { get { return RequestMethod == "PUT"; } }
+        public bool IsTrace { get { return RequestMethod == "TRACE"; } }
+
+        public string HostWithPort
+        {
+            get
+            {
+                if (Environment.ContainsKey("HTTP_X_FORWARDED_HOST"))
+                {
+                    var forwarded = (string)Environment["HTTP_X_FORWARDED_HOST"];
+                    return forwarded.Split(", ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last();
+                }
+
+                if (Environment.ContainsKey("HTTP_HOST"))
+                {
+                    return Environment["HTTP_HOST"];
+                }
+
+                string hostWithPort = Environment.ContainsKey("SERVER_NAME")
+                    ? Environment["SERVER_NAME"]
+                    : Environment["SERVER_ADDR"];
+
+                hostWithPort += ":" + Environment["SERVER_PORT"];
+
+                return hostWithPort;
+            }
+        }
+
+        public string Host
+        {
+            get
+            {
+                return HostWithPort.Contains(":")
+                    ? HostWithPort.Substring(0, HostWithPort.IndexOf(":"))
+                    : HostWithPort;
+            }
         }
 
         public dynamic Session
@@ -86,6 +130,42 @@ namespace NRack
         public dynamic Logger
         {
             get { return Environment["rack.logger"]; }
+        }
+
+        public IDictionary<string, string> GET
+        {
+            get
+            {
+                const string QueryStringKey = "rack.request.query_string";
+                const string QueryHashKey = "rack.request.query_hash";
+
+                if (Environment.ContainsKey(QueryStringKey) && Environment[QueryStringKey] == QueryString)
+                {
+                    return Environment[QueryHashKey];
+                }
+
+                Environment[QueryStringKey] = QueryString;
+                Environment[QueryHashKey] = ParseQuery(QueryString);
+                return Environment[QueryHashKey];
+            }
+        }
+
+        public IDictionary<string, string> POST
+        {
+            get { return new Dictionary<string, string>(); }
+        }
+
+        public IDictionary<string, string> Params
+        {
+            get
+            {
+                return GET.Concat(POST).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            }
+        }
+
+        protected IDictionary<string, string> ParseQuery(string queryString)
+        {
+            return Utils.ParseNestedQuery(queryString);
         }
     }
 }
