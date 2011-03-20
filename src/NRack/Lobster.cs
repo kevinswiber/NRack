@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using ICSharpCode.SharpZipLib.Zip.Compression.Streams;
 using NRack.Helpers;
-
 
 namespace NRack
 {
@@ -22,21 +21,22 @@ namespace NRack
         {
             var lobster64 = EncodedLobster.Replace(" ", string.Empty).Replace("\r", string.Empty).Replace("\n", string.Empty);
             var lobsterBytes = Convert.FromBase64String(lobster64);
-            var lobsterStream = new MemoryStream(lobsterBytes);
-            var inflater = new InflaterInputStream(lobsterStream);
-            var lobsterOut = new MemoryStream();
+            var lobsterStream = new MemoryStream(lobsterBytes) { Position = 2 /* 1st 2 bytes part of zlib spec, not deflate */};
 
-            var b = new byte[1];
+            string lobsterString;
 
-            int n;
-            while ((n = inflater.Read(b, 0, b.Length)) > 0)
+            using (var deflateStream = new DeflateStream(lobsterStream, CompressionMode.Decompress))
             {
-                lobsterOut.Write(b, 0, n);
-            }
+                using (var lobsterOut = new MemoryStream())
+                {
+                    lobsterOut.Position = 0;
+                    deflateStream.CopyTo(lobsterOut);
 
-            inflater.Close();
-            var lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
-            lobsterOut.Close();
+                    lobsterString = System.Text.Encoding.UTF8.GetString(lobsterOut.ToArray());
+
+                    lobsterOut.Close();
+                }
+            }
 
             return lobsterString;
         }
