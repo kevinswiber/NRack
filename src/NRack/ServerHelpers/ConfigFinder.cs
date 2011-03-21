@@ -47,7 +47,7 @@ namespace NRack.ServerHelpers
 
         private static bool TypeIsPublicClass(Type type)
         {
-            return (type != null && type.IsPublic && type.IsClass && !type.IsAbstract);
+            return (!type.Equals(null) && type.IsPublic && type.IsClass && !type.IsAbstract);
         }
 
         private static bool TypeIsRackConfig(Type type)
