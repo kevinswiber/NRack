@@ -89,7 +89,7 @@ namespace NRack.Hosting.AspNet
 
             foreach (var method in closeMethods)
             {
-                if (method.GetParameters().Length == 0 && method.ReturnType == typeof(void))
+                if (method.GetParameters().Length == 0 && method.ReturnType.Equals(typeof(void)))
                 {
                     method.Invoke(response.Body, null);
                     break;
@@ -143,7 +143,7 @@ namespace NRack.Hosting.AspNet
 
         private static bool TypeIsPublicClass(Type type)
         {
-            return (type != null && type.IsPublic && type.IsClass && !type.IsAbstract);
+            return (!type.Equals(null) && type.IsPublic && type.IsClass && !type.IsAbstract);
         }
 
         private static bool TypeIsRackConfig(Type type)
