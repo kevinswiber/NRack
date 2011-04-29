@@ -5,6 +5,7 @@ NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .N
 "Hello World" Rack Application
 -------------------
 Here is a small example of an NRack application.
+
 ```c#
 public class MyApp : ICallable
 {
@@ -34,6 +35,7 @@ public class Config : ConfigBase
 ```
 
 Here's a more complex configuration:
+
 ```c#
 public override void Start()
 {
