@@ -51,17 +51,20 @@ public override void Start()
 
 Add the following to your Web.config:
 
-	<configuration>
-		<system.web>
-			<httpHandlers>
-				<add verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
-			</httpHandlers>
-			<compilation debug="true"/></system.web>
-		<system.webServer>
-			<validation validateIntegratedModeConfiguration="false"/>
-			<modules runAllManagedModulesForAllRequests="true"/>
-			<handlers>
-				<add name="RackHandler" verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
-			</handlers>
-		</system.webServer>
-	</configuration>
+```xml
+<configuration>
+  <system.web>
+    <httpHandlers>
+      <add verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
+    </httpHandlers>
+    <compilation debug="true"/>
+  </system.web>
+  <system.webServer>
+    <validation validateIntegratedModeConfiguration="false"/>
+    <modules runAllManagedModulesForAllRequests="true"/>
+    <handlers>
+      <add name="RackHandler" verb="*" path="*" type="NRack.Hosting.AspNet.AspNetHandler"/>
+    </handlers>
+  </system.webServer>
+</configuration>
+```
