@@ -53,10 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\NRackup\NRackup.csproj">
-      <Project>{6661D675-614C-4DAC-978D-6C5B81221B51}</Project>
-      <Name>NRackup</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\NRack\NRack.csproj">
       <Project>{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}</Project>
       <Name>NRack</Name>

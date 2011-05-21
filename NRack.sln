@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.Kayak", "exam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{1A2EA382-9E8E-4DB8-9B87-714D6A7219A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRackup", "src\NRackup\NRackup.csproj", "{6661D675-614C-4DAC-978D-6C5B81221B51}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.AspNet", "example\NRack.Example.AspNet\NRack.Example.AspNet.csproj", "{7194CE10-7F67-400B-AF13-5313DF8135EF}"
 EndProject
 Global
@@ -53,16 +51,6 @@ Global
 		{8A669B5E-8E98-4F19-AF48-DDBF655F3792}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8A669B5E-8E98-4F19-AF48-DDBF655F3792}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8A669B5E-8E98-4F19-AF48-DDBF655F3792}.Release|x86.ActiveCfg = Release|Any CPU
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Debug|x86.ActiveCfg = Debug|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Debug|x86.Build.0 = Debug|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Release|Any CPU.ActiveCfg = Release|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Release|Mixed Platforms.Build.0 = Release|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Release|x86.ActiveCfg = Release|x86
-		{6661D675-614C-4DAC-978D-6C5B81221B51}.Release|x86.Build.0 = Release|x86
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

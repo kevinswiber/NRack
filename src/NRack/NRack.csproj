@@ -31,13 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommandLine">
-      <HintPath>..\..\lib\libcmdline\CommandLine.dll</HintPath>
-    </Reference>
-    <Reference Include="Kayak">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\kayak\Kayak.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -60,9 +53,6 @@
     <Compile Include="Helpers\Hash.cs" />
     <Compile Include="Extensions\HttpExtensions.cs" />
     <Compile Include="File.cs" />
-    <Compile Include="HandlerRegistry.cs" />
-    <Compile Include="Hosting\Kayak\KayakHandler.cs" />
-    <Compile Include="Hosting\Kayak\OwinResponseAdapter.cs" />
     <Compile Include="ICallable.cs" />
     <Compile Include="IPathConvertible.cs" />
     <Compile Include="IIterable.cs" />
@@ -84,12 +74,6 @@
     <Compile Include="Helpers\IterableAdapter.cs" />
     <Compile Include="Iterable.cs" />
     <Compile Include="Response.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServerHelpers\ConfigFactory.cs" />
-    <Compile Include="ServerHelpers\ConfigFinder.cs" />
-    <Compile Include="ServerHelpers\ServerOptionsBuilder.cs" />
-    <Compile Include="ServerHelpers\ServerOptions.cs" />
-    <Compile Include="ServerHelpers\ServerOptionKeys.cs" />
     <Compile Include="ShowExceptions.cs" />
     <Compile Include="Static.cs" />
     <Compile Include="UrlMap.cs" />
