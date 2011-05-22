@@ -27,11 +27,11 @@ namespace NRack.Specs
             var response = new Response();
 
             var body = response.Finish(_ =>
-                                           {
-                                               response.Write("foo");
-                                               response.Write("bar");
-                                               response.Write("baz");
-                                           })[2];
+            {
+                response.Write("foo");
+                response.Write("bar");
+                response.Write("baz");
+            })[2];
             var parts = new List<string>();
             ((IIterable)body).Each(part => parts.Add(part));
 
