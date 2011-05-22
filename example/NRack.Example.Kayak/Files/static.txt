@@ -1,2 +1,0 @@
-﻿You just got served!
-... A static file!
