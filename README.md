@@ -16,7 +16,7 @@ public class MyApp : ICallable
 }
 ```
 
-Check out NRack.Example and NRack.Tests for more info.
+Check out NRack.Example and NRack.Specs for more info.
 
 Setup
 -----
