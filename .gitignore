@@ -28,3 +28,7 @@ httpd.parse.errors
 
 # Office Temp Files
 ~$* 
+
+# Mono
+*.pidb
+*.userprefs
