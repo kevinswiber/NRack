@@ -32,3 +32,5 @@ httpd.parse.errors
 # Mono
 *.pidb
 *.userprefs
+
+*_mm_cache.bin
