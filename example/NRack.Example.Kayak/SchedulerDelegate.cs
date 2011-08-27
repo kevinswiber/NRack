@@ -12,7 +12,7 @@ namespace NRack.Example.Kayak
 
         public void OnStop(IScheduler scheduler)
         {
-                
+            Console.WriteLine("Stopped");
         }
     }
 }

@@ -63,6 +63,7 @@
     <Compile Include="Extensions\HttpExtensions.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Hosting\Owin\OwinHandler.cs" />
+    <Compile Include="Hosting\Owin\OwinResponseAdapter.cs" />
     <Compile Include="ICallable.cs" />
     <Compile Include="IPathConvertible.cs" />
     <Compile Include="IIterable.cs" />

@@ -1,7 +1,9 @@
-﻿using System.Net;
-using System.Text;
-using Kayak;
-using Kayak.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using Gate;
+using Gate.Kayak;
+using NRack.Hosting.Owin;
 
 namespace NRack.Example.Kayak
 {
@@ -9,15 +11,24 @@ namespace NRack.Example.Kayak
     {
         static void Main(string[] args)
         {
-            var scheduler = KayakScheduler.Factory.Create(new SchedulerDelegate());
-            var server = KayakServer.Factory.CreateHttp(new RequestDelegate(), scheduler);
+            var endPoint = new IPEndPoint(IPAddress.Any, 8080);
 
-            using (server.Listen(new IPEndPoint(IPAddress.Any, 8080)))
-            {
-                // runs scheduler on calling thread. this method will block until
-                // someone calls Stop() on the scheduler.
-                scheduler.Start();
-            }
+            Console.WriteLine("Running... {0}.", endPoint);
+
+            KayakGate.Start(new SchedulerDelegate(), endPoint, Startup.Configuration);
+
+            Console.ReadLine();
+        }
+    }
+
+    public class Startup
+    {
+        public static void Configuration(IAppBuilder appBuilder)
+        {
+            var handler = new OwinHandler();
+            appBuilder
+                .RescheduleCallbacks()
+                .Run(Delegates.ToDelegate(handler.ProcessRequest));
         }
     }
 }
