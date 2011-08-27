@@ -1,6 +1,8 @@
 NRack
 =====
-NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .NET universe using C#.  **Note:  The master branch is still in an early, pre-release state subject to high volatility.**  Keep watching as new commits will roll in with some frequency.
+NRack is a port of Ruby's [Rack](http://rack.rubyforge.org/) framework to the .NET universe using C#.  
+
+NRack currently supports running on ASP.NET and OWIN compatible servers.  This includes IIS, Cassini, IIS Express, and Kayak.
 
 "Hello World" Rack Application
 -------------------
