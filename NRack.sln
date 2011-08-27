@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Specs", "test\NRack.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.AspNet", "example\NRack.Example.AspNet\NRack.Example.AspNet.csproj", "{7194CE10-7F67-400B-AF13-5313DF8135EF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NRack.Example.Kayak", "example\NRack.Example.Kayak\NRack.Example.Kayak.csproj", "{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|x86.ActiveCfg = Release|Any CPU
 		{4A14ACB7-BF68-401D-B116-77EC39B88A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A14ACB7-BF68-401D-B116-77EC39B88A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A14ACB7-BF68-401D-B116-77EC39B88A0D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -37,21 +49,21 @@ Global
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7194CE10-7F67-400B-AF13-5313DF8135EF}.Release|x86.ActiveCfg = Release|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FA2EE796-4D9D-47D9-9843-B1F903F0BED8}.Release|x86.ActiveCfg = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = example\NRack.Example.AspNet\NRack.Example.AspNet.csproj
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Debug|x86.ActiveCfg = Debug|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Debug|x86.Build.0 = Debug|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Release|Any CPU.ActiveCfg = Release|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Release|Mixed Platforms.Build.0 = Release|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Release|x86.ActiveCfg = Release|x86
+		{3B74AD55-E0EA-4674-B66D-39E6E9FA8F03}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = example\NRack.Example.AspNet\NRack.Example.AspNet.csproj
 	EndGlobalSection
 EndGlobal
