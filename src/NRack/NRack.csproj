@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigResolver.cs" />
     <Compile Include="Helpers\CalledWithIterableResponseAdapter.cs" />
     <Compile Include="Helpers\DetachedApplication.cs" />
     <Compile Include="Helpers\HeaderHash.cs" />
