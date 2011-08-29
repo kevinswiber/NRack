@@ -269,6 +269,8 @@ namespace NRack
 
                     var input = ((MemoryStream)Environment["rack.input"]);
                     var inputBytes = new byte[input.Length];
+
+                    input.Position = 0;
                     input.Read(inputBytes, 0, (int)input.Length);
                     var formVars = Encoding.ASCII.GetString(inputBytes);
                     if (formVars[formVars.Length - 1] == '0')
